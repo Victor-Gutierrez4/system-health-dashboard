@@ -1,30 +1,30 @@
 # System Health Checker Dashboard
 
-System Health Checker Dashboard is a small IT portfolio project that presents basic computer health information in a clean web dashboard. It is designed for entry-level IT support, systems support, networking support, and IT operations career paths.
+System Health Checker Dashboard is a small IT portfolio project that presents browser-safe device, network, storage, privacy, and performance information in a clean web dashboard. It is designed for entry-level IT support, systems support, networking support, and IT operations career paths.
 
 The project demonstrates practical troubleshooting logic, system monitoring concepts, JavaScript, automated testing, and professional documentation.
 
 ## What It Shows
 
-The dashboard displays:
+The dashboard displays browser-safe live signals, including:
 
-- CPU usage
-- memory usage
-- disk usage
-- network connection status
-- system uptime
-- running process count
-- battery status
-- common local port checks
-- basic security recommendations
+- online/offline network status
+- connection type, downlink, latency, and data saver status when supported
+- browser memory and JavaScript heap estimates when supported
+- browser storage usage, quota, and persistence status
+- battery level and charging status when supported
+- logical CPU core count and approximate device memory when supported
+- local port visibility limitation
+- service worker, local storage, cookies, secure context, and privacy signals
+- platform, language, time zone, screen, viewport, pixel ratio, and color depth
+- page load timing, resource count, page visibility, and WebGL renderer
+- browser permission states for geolocation, notifications, camera, and microphone without requesting access
 
 The page includes hover/click interactions:
 
-- Hover over metric cards to see what each check means.
-- Hover over system detail cards to see why each detail matters.
+- Hover or click metric cards to see what each check means.
+- Hover or click browser detail cards to see why each detail matters.
 - Click recommendations to expand suggested actions.
-- Switch between user-entered device profile scans and live browser-safe checks.
-- Use Device Profile mode to enter values from the user's actual machine.
 
 ## Why I Built It
 
@@ -68,7 +68,7 @@ The tests validate the dashboard's health scoring and recommendation logic.
 
 Because the project runs on GitHub Pages, it cannot directly access private operating-system data such as real CPU usage, RAM usage, full disk health, running processes, local services, or open ports. Browsers block that information for security.
 
-The **Live Browser Check** mode uses browser-safe signals instead:
+The live dashboard uses browser-safe signals instead:
 
 - online/offline network status
 - browser storage estimate
@@ -76,6 +76,7 @@ The **Live Browser Check** mode uses browser-safe signals instead:
 - battery level when supported
 - connection type when supported
 - page performance/resource signals
+- browser/device capability and privacy states
 
 A future advanced version could add a local Python or Node.js companion app to collect full system data with the user's permission.
 

@@ -108,67 +108,10 @@ p {
   padding: 24px;
 }
 
-.input-panel {
-  margin-top: 18px;
-}
-
-.profile-form {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 14px;
-}
-
-.profile-form label {
-  display: grid;
-  gap: 7px;
-  color: var(--muted);
-  font-size: 0.84rem;
-  font-weight: 700;
-}
-
-.profile-form input,
-.profile-form select {
-  width: 100%;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 10px;
-  color: var(--text);
-  background: #ffffff;
-  font: inherit;
-}
-
-.profile-form input:focus,
-.profile-form select:focus {
-  border-color: var(--blue);
-  outline: 2px solid rgba(35, 100, 210, 0.14);
-}
-
 .actions {
   display: grid;
   gap: 10px;
-  min-width: 290px;
-}
-
-.segmented-control {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.mode-button {
-  border: 0;
-  padding: 10px;
-  color: var(--muted);
-  background: #f8fafc;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.mode-button.active {
-  color: #ffffff;
-  background: var(--text);
+  min-width: 220px;
 }
 
 .primary-action {
@@ -240,7 +183,8 @@ p {
 }
 
 .metric-card:hover .metric-popover,
-.metric-card:focus .metric-popover {
+.metric-card:focus .metric-popover,
+.metric-card.tip-open .metric-popover {
   opacity: 1;
   transform: translateY(0);
 }
@@ -337,7 +281,8 @@ p {
 }
 
 .detail-card:hover p,
-.detail-card:focus p {
+.detail-card:focus p,
+.detail-card.tip-open p {
   opacity: 1;
   transform: translateY(0);
 }
@@ -414,8 +359,7 @@ p {
 
   .metrics-grid,
   .content-grid,
-  .details-list,
-  .profile-form {
+  .details-list {
     grid-template-columns: 1fr;
   }
 

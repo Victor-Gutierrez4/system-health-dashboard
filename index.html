@@ -18,85 +18,37 @@
 
       <section class="hero-panel">
         <div>
-          <h2>Current System Snapshot</h2>
+          <h2>Live Browser Check</h2>
           <p>
-            A small dashboard for reviewing basic system health, spotting warning signs,
-            and communicating clear next steps for IT support.
+            A browser-safe dashboard for reviewing live device, network, storage,
+            performance, and privacy signals available to a web page.
           </p>
         </div>
         <div class="actions">
-          <div class="segmented-control" aria-label="Scan mode">
-            <button class="mode-button active" id="profileMode" type="button">Device Profile</button>
-            <button class="mode-button" id="liveMode" type="button">Live Browser Check</button>
-          </div>
-          <button class="primary-action" id="refreshButton" type="button">Run Scan</button>
+          <button class="primary-action" id="refreshButton" type="button">Run Live Browser Check</button>
         </div>
       </section>
 
-      <section class="panel input-panel">
-        <div class="panel-heading">
-          <h2>Device Profile</h2>
-          <span>Enter values from your device</span>
-        </div>
-        <form class="profile-form" id="deviceProfile">
-          <label>
-            CPU Usage %
-            <input id="cpuInput" type="number" min="0" max="100" value="28">
-          </label>
-          <label>
-            Memory Usage %
-            <input id="memoryInput" type="number" min="0" max="100" value="82">
-          </label>
-          <label>
-            Disk Usage %
-            <input id="diskInput" type="number" min="0" max="100" value="64">
-          </label>
-          <label>
-            Uptime Hours
-            <input id="uptimeInput" type="number" min="0" max="10000" value="214">
-          </label>
-          <label>
-            Process Count
-            <input id="processInput" type="number" min="0" max="10000" value="146">
-          </label>
-          <label>
-            Battery %
-            <input id="batteryInput" type="number" min="0" max="100" value="71">
-          </label>
-          <label>
-            Network Connected
-            <select id="networkInput">
-              <option value="true">Yes</option>
-              <option value="false">No</option>
-            </select>
-          </label>
-          <label>
-            Open Common Ports
-            <input id="portsInput" type="text" value="80, 443, 3389" placeholder="Example: 80, 443, 3389">
-          </label>
-        </form>
-      </section>
-
-      <section class="metrics-grid" aria-label="System health metrics">
-        <article class="metric-card" id="cpuCard" tabindex="0" data-info="CPU usage helps identify whether applications or background processes are slowing the computer down.">
-          <span class="metric-label">CPU Usage</span>
+      <section class="metrics-grid" aria-label="Browser health metrics">
+        <article class="metric-card" id="cpuCard" tabindex="0">
+          <span class="metric-label">Browser Load</span>
           <strong id="cpuValue">--</strong>
           <small id="cpuStatus">Waiting</small>
           <div class="metric-popover" id="cpuInfo"></div>
         </article>
-        <article class="metric-card" id="memoryCard" tabindex="0" data-info="Memory usage shows whether the system may need unused apps closed or startup programs reviewed.">
-          <span class="metric-label">Memory Usage</span>
+        <article class="metric-card" id="memoryCard" tabindex="0">
+          <span class="metric-label">Browser Memory</span>
           <strong id="memoryValue">--</strong>
           <small id="memoryStatus">Waiting</small>
           <div class="metric-popover" id="memoryInfo"></div>
         </article>
-        <article class="metric-card" id="diskCard" tabindex="0" data-info="Disk usage helps determine whether storage cleanup, temp file removal, or file archiving is needed.">
-          <span class="metric-label">Disk Usage</span>
+        <article class="metric-card" id="diskCard" tabindex="0">
+          <span class="metric-label">Browser Storage</span>
           <strong id="diskValue">--</strong>
           <small id="diskStatus">Waiting</small>
           <div class="metric-popover" id="diskInfo"></div>
         </article>
-        <article class="metric-card" id="networkCard" tabindex="0" data-info="Network status is one of the first checks for troubleshooting web, email, DNS, and cloud service issues.">
+        <article class="metric-card" id="networkCard" tabindex="0">
           <span class="metric-label">Network</span>
           <strong id="networkValue">--</strong>
           <small id="networkStatus">Waiting</small>
@@ -107,17 +59,10 @@
       <section class="content-grid">
         <article class="panel">
           <div class="panel-heading">
-            <h2>System Details</h2>
+            <h2>Browser and Device Details</h2>
             <span id="lastScan">Not scanned yet</span>
           </div>
-          <div class="details-list">
-            <div class="detail-card" tabindex="0"><span>Uptime</span><strong id="uptimeValue">--</strong><p>Long uptime can mean updates are pending or background issues have built up.</p></div>
-            <div class="detail-card" tabindex="0"><span>Running Processes</span><strong id="processValue">--</strong><p>A high process count can point to heavy startup apps or unnecessary background services.</p></div>
-            <div class="detail-card" tabindex="0"><span>Battery</span><strong id="batteryValue">--</strong><p>Low battery or unavailable battery data helps identify whether the device is desktop or laptop-like.</p></div>
-            <div class="detail-card" tabindex="0"><span>Common Ports</span><strong id="portsValue">--</strong><p>Ports represent network services. Telnet 23 is risky, and RDP 3389 should be reviewed carefully.</p></div>
-            <div class="detail-card" tabindex="0"><span>Browser Storage</span><strong id="storageValue">--</strong><p>Browser storage is a safe web estimate, not the full hard drive usage.</p></div>
-            <div class="detail-card" tabindex="0"><span>Connection Type</span><strong id="connectionValue">--</strong><p>Connection type is reported by the browser when supported, such as 4g, wifi-like, or unknown.</p></div>
-          </div>
+          <div class="details-list" id="detailsList"></div>
         </article>
 
         <article class="panel">
@@ -132,17 +77,18 @@
       <section class="panel notice">
         <strong>Live check note:</strong>
         <span>
-          GitHub Pages can run browser-safe checks only. Real CPU, process, port, and full disk checks
-          would require a local desktop script or backend agent with system permission.
+          GitHub Pages can run browser-safe checks only. Real CPU, running processes,
+          open ports, and full disk checks require a local desktop script or backend agent
+          with system permission.
         </span>
       </section>
 
       <section class="panel">
         <div class="panel-heading">
-          <h2>Recent System Load</h2>
-          <span>Sample trend</span>
+          <h2>Recent Browser Performance</h2>
+          <span>Live resource timing</span>
         </div>
-        <div class="bar-chart" id="loadChart" aria-label="Recent system load chart"></div>
+        <div class="bar-chart" id="loadChart" aria-label="Recent browser performance chart"></div>
       </section>
     </main>
 
