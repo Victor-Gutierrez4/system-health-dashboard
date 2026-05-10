@@ -86,6 +86,12 @@ h2 {
   margin-bottom: 0;
 }
 
+.ai-status {
+  margin: 12px 0 0;
+  color: var(--primary);
+  font-weight: 700;
+}
+
 .status-card {
   min-width: 210px;
   border: var(--card-border);

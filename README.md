@@ -20,9 +20,11 @@ The site uses a multi-page flow:
 - Choose preferred learning style and study pace
 - Select which learning methods they want
 - Generate a personalized learning dashboard
+- Use live AI tutoring through Puter.js when available
 
 ## Learning Outputs
 
+- AI-generated teaching explanation
 - Simple explanation of the topic
 - Guided AI tutor lesson
 - Different ways to learn it
@@ -60,6 +62,7 @@ The project follows the provided design system:
 - JavaScript
 - Node.js built-in test runner
 - GitHub Pages
+- Puter.js AI chat integration
 
 ## Run Locally
 
@@ -81,7 +84,11 @@ http://localhost:8000
 npm test
 ```
 
-The tests validate keyword extraction, summary generation, flashcard creation, quiz generation, difficulty-based questions, learning methods, practice problems, read-time estimation, and full study kit generation.
+The tests validate the local fallback engine: keyword extraction, summary generation, flashcard creation, quiz generation, difficulty-based questions, learning methods, practice problems, read-time estimation, and full study kit generation.
+
+## AI Integration
+
+The site loads Puter.js in the browser and calls `puter.ai.chat()` to generate the study guide when the user reaches the final page. If the AI provider is unavailable, the app falls back to the local deterministic study engine so the project still works on GitHub Pages.
 
 ## Portfolio Description
 

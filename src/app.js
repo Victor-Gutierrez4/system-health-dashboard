@@ -26,12 +26,12 @@ const elements = {
   emailInput: document.getElementById("emailInput"),
   subjectInput: document.getElementById("subjectInput"),
   topicInput: document.getElementById("topicInput"),
-  notesInput: document.getElementById("notesInput"),
   problemsInput: document.getElementById("problemsInput"),
   difficultyInput: document.getElementById("difficultyInput"),
   paceInput: document.getElementById("paceInput"),
   sampleButton: document.getElementById("sampleButton"),
   personalizedIntro: document.getElementById("personalizedIntro"),
+  aiStatus: document.getElementById("aiStatus"),
   readTime: document.getElementById("readTime"),
   lessonTabs: document.getElementById("lessonTabs"),
   lessonOutput: document.getElementById("lessonOutput"),
@@ -46,6 +46,8 @@ const elements = {
   practiceOutput: document.getElementById("practiceOutput"),
   planOutput: document.getElementById("planOutput")
 };
+
+let latestRequestId = 0;
 
 function clear(element) {
   element.innerHTML = "";
@@ -175,13 +177,90 @@ function updateVisibleMethods() {
   }
 }
 
-function buildStudyText(topic) {
-  return elements.notesInput.value.trim() || `${topic} is the topic the user wants to study.`;
+function buildStudyPrompt(topic) {
+  const subject = elements.subjectInput.value;
+  const difficulty = elements.difficultyInput.value;
+  const pace = elements.paceInput.value;
+  const problems = elements.problemsInput.value.trim() || "No specific confusion entered.";
+  const methods = selectedMethods().join(", ");
+
+  return `You are StudyPath AI, a patient expert tutor. Create a clear study guide for a learner.
+
+Subject area: ${subject}
+Specific topic: ${topic}
+Difficulty: ${difficulty}
+Study pace: ${pace}
+Learner's problems/questions: ${problems}
+Requested study methods: ${methods}
+
+Return ONLY valid JSON. Do not include markdown fences.
+Use this exact shape:
+{
+  "summary": "A strong 1-2 paragraph explanation that teaches the topic clearly.",
+  "lesson": [{"title":"1. ...","detail":"..."}],
+  "keywords": [{"term":"...","count":1}],
+  "discussion": [{"title":"...","detail":"..."}],
+  "flashcards": [{"front":"...","back":"..."}],
+  "quiz": [{"question":"...","answer":"..."}],
+  "practice": [{"prompt":"...","hint":"..."}],
+  "plan": ["...", "..."]
 }
 
-function renderStudyGuide() {
+Make the lesson knowledgeable, specific, and useful. Explain the learner's confusion directly.`;
+}
+
+function parseAIJson(responseText) {
+  const cleaned = String(responseText)
+    .replace(/^```json\s*/i, "")
+    .replace(/^```\s*/i, "")
+    .replace(/```$/i, "")
+    .trim();
+
+  const start = cleaned.indexOf("{");
+  const end = cleaned.lastIndexOf("}");
+  const jsonText = start >= 0 && end > start ? cleaned.slice(start, end + 1) : cleaned;
+  return JSON.parse(jsonText);
+}
+
+function normalizeAIKit(aiKit, fallbackKit) {
+  return {
+    ...fallbackKit,
+    summary: aiKit.summary || fallbackKit.summary,
+    lesson: Array.isArray(aiKit.lesson) ? aiKit.lesson : fallbackKit.lesson,
+    keywords: Array.isArray(aiKit.keywords) ? aiKit.keywords : fallbackKit.keywords,
+    discussion: Array.isArray(aiKit.discussion) ? aiKit.discussion : fallbackKit.discussion,
+    flashcards: Array.isArray(aiKit.flashcards) ? aiKit.flashcards : fallbackKit.flashcards,
+    quiz: Array.isArray(aiKit.quiz) ? aiKit.quiz : fallbackKit.quiz,
+    practice: Array.isArray(aiKit.practice) ? aiKit.practice : fallbackKit.practice,
+    plan: Array.isArray(aiKit.plan) ? aiKit.plan : fallbackKit.plan
+  };
+}
+
+async function getAIStudyKit(topic, fallbackKit) {
+  if (!window.puter?.ai?.chat) {
+    elements.aiStatus.textContent = "AI provider unavailable. Showing local fallback study guide.";
+    return fallbackKit;
+  }
+
+  elements.aiStatus.textContent = "Generating with AI...";
+
+  try {
+    const response = await window.puter.ai.chat(buildStudyPrompt(topic));
+    const aiText = typeof response === "string" ? response : response?.message?.content || response?.text || String(response);
+    const aiKit = parseAIJson(aiText);
+    elements.aiStatus.textContent = "AI-generated lesson ready.";
+    return normalizeAIKit(aiKit, fallbackKit);
+  } catch (error) {
+    elements.aiStatus.textContent = "AI request failed, so the local fallback guide is shown.";
+    return fallbackKit;
+  }
+}
+
+async function renderStudyGuide() {
+  const requestId = ++latestRequestId;
   const topic = elements.topicInput.value.trim() || elements.subjectInput.value;
-  const kit = generateStudyKit(buildStudyText(topic), {
+  const localStudyText = `${topic}. ${elements.subjectInput.value}. ${elements.problemsInput.value}`;
+  const fallbackKit = generateStudyKit(localStudyText, {
     topic,
     goal: "review",
     difficulty: elements.difficultyInput.value,
@@ -190,11 +269,18 @@ function renderStudyGuide() {
     style: "mixed"
   });
 
+  let kit = fallbackKit;
+
+  if (document.getElementById("learnPage").classList.contains("active")) {
+    kit = await getAIStudyKit(topic, fallbackKit);
+    if (requestId !== latestRequestId) return;
+  }
+
   elements.signedInName.textContent = elements.nameInput.value || "Guest Learner";
   elements.styleSummary.textContent = `${elements.difficultyInput.options[elements.difficultyInput.selectedIndex].text} / ${elements.paceInput.options[elements.paceInput.selectedIndex].text}`;
   elements.personalizedIntro.textContent =
     `${elements.nameInput.value || "This learner"} is studying ${topic} under ${elements.subjectInput.value}. The guide focuses on the questions or problems they entered and presents the material in the study formats they selected.`;
-  elements.readTime.textContent = `${kit.readTimeMinutes} min`;
+  elements.readTime.textContent = `${kit.readTimeMinutes || fallbackKit.readTimeMinutes} min`;
   elements.summaryOutput.textContent = kit.summary || `Start by defining ${topic}, then study one example and practice explaining it.`;
 
   renderInfoCards(elements.lessonOutput, kit.lesson);
@@ -214,7 +300,6 @@ function loadSample() {
   elements.subjectInput.value = "Networking";
   populateSpecificTopics();
   elements.topicInput.value = "Subnetting";
-  elements.notesInput.value = sampleNotes;
   elements.problemsInput.value = sampleProblems;
   elements.difficultyInput.value = "intermediate";
   elements.paceInput.value = "steady";

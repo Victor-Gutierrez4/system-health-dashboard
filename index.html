@@ -73,10 +73,6 @@
             </label>
           </div>
           <label class="full-field">
-            What do you already know or have?
-            <textarea id="notesInput" placeholder="Paste notes, textbook material, assignment details, or what you already understand..."></textarea>
-          </label>
-          <label class="full-field">
             What problems or questions do you have?
             <textarea id="problemsInput" placeholder="Example: I do not understand subnet masks, thesis statements, factoring equations, or remembering vocabulary."></textarea>
           </label>
@@ -149,6 +145,7 @@
             <p class="eyebrow">Step 4</p>
             <h1>Your Study Guide</h1>
             <p class="intro" id="personalizedIntro"></p>
+            <p class="ai-status" id="aiStatus">Waiting to generate AI lesson.</p>
           </div>
           <div class="status-card">
             <span>Estimated read</span>
@@ -251,6 +248,7 @@
       </section>
     </main>
 
+    <script src="https://js.puter.com/v2/"></script>
     <script type="module" src="src/app.js"></script>
   </body>
 </html>
