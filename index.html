@@ -10,7 +10,158 @@
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
-    <div id="root"></div>
+    <main class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Applied AI Portfolio Project</p>
+          <h1>DevStudy AI</h1>
+          <p class="intro">
+            A study assistant for developers that turns notes into summaries,
+            flashcards, quizzes, and focused study plans.
+          </p>
+        </div>
+        <div class="status-card">
+          <span>Signed in as</span>
+          <strong id="signedInName">Victor Gutierrez</strong>
+        </div>
+      </header>
+
+      <div class="layout-grid">
+        <div class="left-column">
+          <section class="section-panel login-section">
+            <div class="section-heading">
+              <h2>Login</h2>
+              <span>Demo profile</span>
+            </div>
+            <div class="form-grid">
+              <label>
+                Name
+                <input id="nameInput" value="Victor Gutierrez" placeholder="Developer name">
+              </label>
+              <label>
+                Email
+                <input id="emailInput" value="student@example.com" placeholder="developer@example.com">
+              </label>
+            </div>
+            <p class="helper-text">
+              This front-end demo personalizes the study kit. It does not store passwords or send data to a server.
+            </p>
+          </section>
+
+          <section class="section-panel">
+            <div class="section-heading">
+              <h2>About User</h2>
+              <span>Learning profile</span>
+            </div>
+            <div class="form-grid">
+              <label>
+                Role Goal
+                <input id="roleInput" value="Developer" placeholder="Front-end developer">
+              </label>
+              <label>
+                Current Focus
+                <input id="focusInput" value="React, AI tools, and technical studying" placeholder="React, APIs, testing">
+              </label>
+            </div>
+          </section>
+
+          <section class="section-panel">
+            <div class="section-heading">
+              <h2>Difficulty</h2>
+              <span>Controls quiz style</span>
+            </div>
+            <div class="difficulty-grid" id="difficultyOptions">
+              <button class="difficulty-option" data-level="beginner" type="button">
+                <strong>Beginner</strong>
+                <span>Definitions and simple examples</span>
+              </button>
+              <button class="difficulty-option active" data-level="intermediate" type="button">
+                <strong>Intermediate</strong>
+                <span>Connections and explanations</span>
+              </button>
+              <button class="difficulty-option" data-level="advanced" type="button">
+                <strong>Advanced</strong>
+                <span>Scenarios and application</span>
+              </button>
+            </div>
+          </section>
+
+          <section class="section-panel path-panel">
+            <div class="section-heading">
+              <h2>Learning Path</h2>
+              <span>Extra fit</span>
+            </div>
+            <ol class="path-list" id="learningPath"></ol>
+          </section>
+        </div>
+
+        <div class="right-column">
+          <section class="section-panel study-input">
+            <div class="section-heading">
+              <h2>Study Notes</h2>
+              <button class="ghost-button" id="sampleButton" type="button">Load Sample</button>
+            </div>
+            <textarea id="notesInput" placeholder="Paste developer notes, documentation, class notes, or study material here..."></textarea>
+            <div class="form-grid">
+              <label>
+                Topic
+                <input id="topicInput" value="React Developer Fundamentals">
+              </label>
+              <label>
+                Goal
+                <select id="goalInput">
+                  <option value="exam">Prepare for an exam</option>
+                  <option value="review">Review key concepts</option>
+                  <option value="presentation">Prepare to explain it</option>
+                </select>
+              </label>
+            </div>
+          </section>
+
+          <section class="results-grid">
+            <article class="result-card wide">
+              <div class="section-heading">
+                <h2>Summary</h2>
+                <span id="readTime">1 min read</span>
+              </div>
+              <p id="summaryOutput"></p>
+            </article>
+
+            <article class="result-card">
+              <div class="section-heading">
+                <h2>Key Terms</h2>
+                <span>Hover</span>
+              </div>
+              <div class="keyword-list" id="keywordsOutput"></div>
+            </article>
+
+            <article class="result-card">
+              <div class="section-heading">
+                <h2>Flashcards</h2>
+                <span>Click to flip</span>
+              </div>
+              <div class="stack" id="flashcardsOutput"></div>
+            </article>
+
+            <article class="result-card">
+              <div class="section-heading">
+                <h2>Practice Quiz</h2>
+                <span>Reveal answers</span>
+              </div>
+              <div class="stack" id="quizOutput"></div>
+            </article>
+
+            <article class="result-card">
+              <div class="section-heading">
+                <h2>Study Plan</h2>
+                <span>30 minutes</span>
+              </div>
+              <ol class="path-list" id="planOutput"></ol>
+            </article>
+          </section>
+        </div>
+      </div>
+    </main>
     <script type="module" src="src/app.js"></script>
   </body>
 </html>

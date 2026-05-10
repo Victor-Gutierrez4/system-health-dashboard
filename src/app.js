@@ -1,256 +1,136 @@
-import React, { useMemo, useState } from "https://esm.sh/react@18.2.0";
-import { createRoot } from "https://esm.sh/react-dom@18.2.0/client";
 import { generateStudyKit } from "./study.js";
 
 const sampleNotes = `React is a JavaScript library for building user interfaces with reusable components. Components receive data through props and manage local changes with state. In modern React, hooks such as useState and useMemo help developers organize interactive behavior without writing class components. APIs allow applications to request data from a server, while authentication protects private user information. Automated testing helps developers confirm that important functions continue working after changes. A strong developer workflow includes clean UI design, readable code, version control, documentation, and testing.`;
 
-function LoginSection({ user, setUser }) {
-  return React.createElement("section", { className: "section-panel login-section" },
-    React.createElement("div", { className: "section-heading" },
-      React.createElement("h2", null, "Login"),
-      React.createElement("span", null, "Demo profile")
-    ),
-    React.createElement("div", { className: "form-grid" },
-      React.createElement("label", null, "Name",
-        React.createElement("input", {
-          value: user.name,
-          onChange: (event) => setUser({ ...user, name: event.target.value }),
-          placeholder: "Developer name"
-        })
-      ),
-      React.createElement("label", null, "Email",
-        React.createElement("input", {
-          value: user.email,
-          onChange: (event) => setUser({ ...user, email: event.target.value }),
-          placeholder: "developer@example.com"
-        })
-      )
-    ),
-    React.createElement("p", { className: "helper-text" },
-      "This is a front-end demo login section for personalization. It does not store passwords or send data to a server."
-    )
-  );
+let difficulty = "intermediate";
+
+const elements = {
+  signedInName: document.getElementById("signedInName"),
+  nameInput: document.getElementById("nameInput"),
+  emailInput: document.getElementById("emailInput"),
+  roleInput: document.getElementById("roleInput"),
+  focusInput: document.getElementById("focusInput"),
+  difficultyOptions: document.getElementById("difficultyOptions"),
+  sampleButton: document.getElementById("sampleButton"),
+  notesInput: document.getElementById("notesInput"),
+  topicInput: document.getElementById("topicInput"),
+  goalInput: document.getElementById("goalInput"),
+  learningPath: document.getElementById("learningPath"),
+  readTime: document.getElementById("readTime"),
+  summaryOutput: document.getElementById("summaryOutput"),
+  keywordsOutput: document.getElementById("keywordsOutput"),
+  flashcardsOutput: document.getElementById("flashcardsOutput"),
+  quizOutput: document.getElementById("quizOutput"),
+  planOutput: document.getElementById("planOutput")
+};
+
+function clear(element) {
+  element.innerHTML = "";
 }
 
-function AboutUserSection({ user, setUser }) {
-  return React.createElement("section", { className: "section-panel" },
-    React.createElement("div", { className: "section-heading" },
-      React.createElement("h2", null, "About User"),
-      React.createElement("span", null, "Learning profile")
-    ),
-    React.createElement("div", { className: "form-grid" },
-      React.createElement("label", null, "Role Goal",
-        React.createElement("input", {
-          value: user.roleGoal,
-          onChange: (event) => setUser({ ...user, roleGoal: event.target.value }),
-          placeholder: "Front-end developer"
-        })
-      ),
-      React.createElement("label", null, "Current Focus",
-        React.createElement("input", {
-          value: user.focus,
-          onChange: (event) => setUser({ ...user, focus: event.target.value }),
-          placeholder: "React, APIs, testing"
-        })
-      )
-    )
-  );
-}
-
-function DifficultySection({ difficulty, setDifficulty }) {
-  const levels = [
-    ["beginner", "Beginner", "Definitions and simple examples"],
-    ["intermediate", "Intermediate", "Connections and explanations"],
-    ["advanced", "Advanced", "Scenarios and application"]
-  ];
-
-  return React.createElement("section", { className: "section-panel" },
-    React.createElement("div", { className: "section-heading" },
-      React.createElement("h2", null, "Difficulty"),
-      React.createElement("span", null, "Controls quiz style")
-    ),
-    React.createElement("div", { className: "difficulty-grid" },
-      levels.map(([value, label, description]) =>
-        React.createElement("button", {
-          className: `difficulty-option ${difficulty === value ? "active" : ""}`,
-          key: value,
-          onClick: () => setDifficulty(value),
-          type: "button"
-        },
-          React.createElement("strong", null, label),
-          React.createElement("span", null, description)
-        )
-      )
-    )
-  );
-}
-
-function StudyInput({ notes, setNotes, topic, setTopic, goal, setGoal, onSample }) {
-  return React.createElement("section", { className: "section-panel study-input" },
-    React.createElement("div", { className: "section-heading" },
-      React.createElement("h2", null, "Study Notes"),
-      React.createElement("button", { className: "ghost-button", onClick: onSample, type: "button" }, "Load Sample")
-    ),
-    React.createElement("textarea", {
-      value: notes,
-      onChange: (event) => setNotes(event.target.value),
-      placeholder: "Paste developer notes, documentation, class notes, or study material here..."
-    }),
-    React.createElement("div", { className: "form-grid" },
-      React.createElement("label", null, "Topic",
-        React.createElement("input", {
-          value: topic,
-          onChange: (event) => setTopic(event.target.value)
-        })
-      ),
-      React.createElement("label", null, "Goal",
-        React.createElement("select", {
-          value: goal,
-          onChange: (event) => setGoal(event.target.value)
-        },
-          React.createElement("option", { value: "exam" }, "Prepare for an exam"),
-          React.createElement("option", { value: "review" }, "Review key concepts"),
-          React.createElement("option", { value: "presentation" }, "Prepare to explain it")
-        )
-      )
-    )
-  );
-}
-
-function LearningPath({ user, difficulty }) {
-  return React.createElement("section", { className: "section-panel path-panel" },
-    React.createElement("div", { className: "section-heading" },
-      React.createElement("h2", null, "Learning Path"),
-      React.createElement("span", null, "Extra fit")
-    ),
-    React.createElement("ol", { className: "path-list" },
-      React.createElement("li", null, `Connect the notes to the role goal: ${user.roleGoal || "developer"}.`),
-      React.createElement("li", null, `Focus examples around: ${user.focus || "current technical skills"}.`),
-      React.createElement("li", null, `Practice at the ${difficulty} level before moving up.`)
-    )
-  );
-}
-
-function Results({ kit }) {
-  const [flipped, setFlipped] = useState({});
-
-  return React.createElement("section", { className: "results-grid" },
-    React.createElement("article", { className: "result-card wide" },
-      React.createElement("div", { className: "section-heading" },
-        React.createElement("h2", null, "Summary"),
-        React.createElement("span", null, `${kit.readTimeMinutes} min read`)
-      ),
-      React.createElement("p", null, kit.summary || "Paste more notes to generate a stronger summary.")
-    ),
-    React.createElement("article", { className: "result-card" },
-      React.createElement("div", { className: "section-heading" },
-        React.createElement("h2", null, "Key Terms"),
-        React.createElement("span", null, "Hover")
-      ),
-      React.createElement("div", { className: "keyword-list" },
-        kit.keywords.map((keyword) =>
-          React.createElement("span", { className: "keyword-chip", key: keyword.term },
-            React.createElement("strong", null, keyword.term),
-            React.createElement("em", null, `Appears ${keyword.count} time${keyword.count === 1 ? "" : "s"}`)
-          )
-        )
-      )
-    ),
-    React.createElement("article", { className: "result-card" },
-      React.createElement("div", { className: "section-heading" },
-        React.createElement("h2", null, "Flashcards"),
-        React.createElement("span", null, "Click to flip")
-      ),
-      React.createElement("div", { className: "stack" },
-        kit.flashcards.map((card, index) =>
-          React.createElement("button", {
-            className: `flashcard ${flipped[index] ? "flipped" : ""}`,
-            key: card.front,
-            onClick: () => setFlipped({ ...flipped, [index]: !flipped[index] }),
-            type: "button"
-          }, flipped[index] ? card.back : card.front)
-        )
-      )
-    ),
-    React.createElement("article", { className: "result-card" },
-      React.createElement("div", { className: "section-heading" },
-        React.createElement("h2", null, "Practice Quiz"),
-        React.createElement("span", null, "Reveal answers")
-      ),
-      React.createElement("div", { className: "stack" },
-        kit.quiz.map((item) =>
-          React.createElement("details", { className: "quiz-item", key: item.question },
-            React.createElement("summary", null, item.question),
-            React.createElement("p", null, item.answer)
-          )
-        )
-      )
-    ),
-    React.createElement("article", { className: "result-card" },
-      React.createElement("div", { className: "section-heading" },
-        React.createElement("h2", null, "Study Plan"),
-        React.createElement("span", null, "30 minutes")
-      ),
-      React.createElement("ol", { className: "path-list" },
-        kit.plan.map((step) => React.createElement("li", { key: step }, step))
-      )
-    )
-  );
-}
-
-function App() {
-  const [user, setUser] = useState({
-    name: "Victor Gutierrez",
-    email: "student@example.com",
-    roleGoal: "Developer",
-    focus: "React, AI tools, and technical studying"
+function renderKeywords(keywords) {
+  clear(elements.keywordsOutput);
+  keywords.forEach((keyword) => {
+    const item = document.createElement("span");
+    item.className = "keyword-chip";
+    item.innerHTML = `<strong>${keyword.term}</strong><em>Appears ${keyword.count} time${keyword.count === 1 ? "" : "s"}</em>`;
+    elements.keywordsOutput.appendChild(item);
   });
-  const [difficulty, setDifficulty] = useState("intermediate");
-  const [notes, setNotes] = useState(sampleNotes);
-  const [topic, setTopic] = useState("React Developer Fundamentals");
-  const [goal, setGoal] = useState("exam");
-
-  const kit = useMemo(() => generateStudyKit(notes, { topic, goal, difficulty }), [notes, topic, goal, difficulty]);
-
-  return React.createElement("main", { className: "app-shell" },
-    React.createElement("header", { className: "topbar" },
-      React.createElement("div", null,
-        React.createElement("p", { className: "eyebrow" }, "Applied AI Portfolio Project"),
-        React.createElement("h1", null, "DevStudy AI"),
-        React.createElement("p", { className: "intro" },
-          "A React study assistant for developers that turns notes into summaries, flashcards, quizzes, and focused study plans."
-        )
-      ),
-      React.createElement("div", { className: "status-card" },
-        React.createElement("span", null, "Signed in as"),
-        React.createElement("strong", null, user.name || "Guest Developer")
-      )
-    ),
-    React.createElement("div", { className: "layout-grid" },
-      React.createElement("div", { className: "left-column" },
-        React.createElement(LoginSection, { user, setUser }),
-        React.createElement(AboutUserSection, { user, setUser }),
-        React.createElement(DifficultySection, { difficulty, setDifficulty }),
-        React.createElement(LearningPath, { user, difficulty })
-      ),
-      React.createElement("div", { className: "right-column" },
-        React.createElement(StudyInput, {
-          notes,
-          setNotes,
-          topic,
-          setTopic,
-          goal,
-          setGoal,
-          onSample: () => {
-            setNotes(sampleNotes);
-            setTopic("React Developer Fundamentals");
-            setGoal("exam");
-          }
-        }),
-        React.createElement(Results, { kit })
-      )
-    )
-  );
 }
 
-createRoot(document.getElementById("root")).render(React.createElement(App));
+function renderFlashcards(flashcards) {
+  clear(elements.flashcardsOutput);
+  flashcards.forEach((card) => {
+    const button = document.createElement("button");
+    button.className = "flashcard";
+    button.type = "button";
+    button.textContent = card.front;
+    button.addEventListener("click", () => {
+      button.classList.toggle("flipped");
+      button.textContent = button.classList.contains("flipped") ? card.back : card.front;
+    });
+    elements.flashcardsOutput.appendChild(button);
+  });
+}
+
+function renderQuiz(quiz) {
+  clear(elements.quizOutput);
+  quiz.forEach((item) => {
+    const details = document.createElement("details");
+    details.className = "quiz-item";
+    details.innerHTML = `<summary>${item.question}</summary><p>${item.answer}</p>`;
+    elements.quizOutput.appendChild(details);
+  });
+}
+
+function renderList(container, items) {
+  clear(container);
+  items.forEach((text) => {
+    const item = document.createElement("li");
+    item.textContent = text;
+    container.appendChild(item);
+  });
+}
+
+function renderLearningPath() {
+  renderList(elements.learningPath, [
+    `Connect the notes to the role goal: ${elements.roleInput.value || "developer"}.`,
+    `Focus examples around: ${elements.focusInput.value || "current technical skills"}.`,
+    `Practice at the ${difficulty} level before moving up.`
+  ]);
+}
+
+function renderStudyKit() {
+  const text = elements.notesInput.value.trim();
+  const kit = generateStudyKit(text || sampleNotes, {
+    topic: elements.topicInput.value,
+    goal: elements.goalInput.value,
+    difficulty
+  });
+
+  elements.signedInName.textContent = elements.nameInput.value || "Guest Developer";
+  elements.readTime.textContent = `${kit.readTimeMinutes} min read`;
+  elements.summaryOutput.textContent = kit.summary || "Paste more notes to generate a stronger summary.";
+  renderKeywords(kit.keywords);
+  renderFlashcards(kit.flashcards);
+  renderQuiz(kit.quiz);
+  renderList(elements.planOutput, kit.plan);
+  renderLearningPath();
+}
+
+function setDifficulty(nextDifficulty) {
+  difficulty = nextDifficulty;
+  document.querySelectorAll(".difficulty-option").forEach((button) => {
+    button.classList.toggle("active", button.dataset.level === difficulty);
+  });
+  renderStudyKit();
+}
+
+elements.sampleButton.addEventListener("click", () => {
+  elements.notesInput.value = sampleNotes;
+  elements.topicInput.value = "React Developer Fundamentals";
+  elements.goalInput.value = "exam";
+  renderStudyKit();
+});
+
+elements.difficultyOptions.addEventListener("click", (event) => {
+  const button = event.target.closest(".difficulty-option");
+  if (button) {
+    setDifficulty(button.dataset.level);
+  }
+});
+
+[
+  elements.nameInput,
+  elements.emailInput,
+  elements.roleInput,
+  elements.focusInput,
+  elements.notesInput,
+  elements.topicInput,
+  elements.goalInput
+].forEach((input) => {
+  input.addEventListener("input", renderStudyKit);
+});
+
+elements.notesInput.value = sampleNotes;
+renderStudyKit();
