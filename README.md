@@ -1,31 +1,42 @@
-# AI Study Tool
+# DevStudy AI
 
-AI Study Tool is a small portfolio project that turns pasted notes into a study summary, key terms, flashcards, quiz questions, and a 30-minute study plan.
+DevStudy AI is a React-based AI-style study tool for developers. Users can enter a demo login profile, describe their learning goals, choose a difficulty level, paste notes, and generate a study kit with a summary, key terms, flashcards, quiz questions, and a short study plan.
 
-The project is designed for a general IT/software career direction with interest in AI-assisted tools. It demonstrates JavaScript, text analysis, user interaction, automated testing, and clear documentation.
+The project follows the provided design system:
+
+- Primary color: `#4A90E2`
+- Secondary color: `#50E3C2`
+- Neutral color: `#F0F2F5`
+- Text color: `#333333`
+- Background: `#FFFFFF`
+- Heading font: Montserrat
+- Body font: Open Sans
+- 20px base padding
+- 32px layout gaps
+- 8px border radius
+- `2px solid #E0E0E0` card borders
+- subtle card shadow
 
 ## Why I Built It
 
-After reviewing job descriptions related to IT, software support, and AI-assisted technical roles, two skills stood out as useful to develop:
-
-- applied AI-style workflows
-- automated testing and professional documentation
-
-This project gives me a realistic way to practice those skills. The first version runs completely in the browser and does not require an API key. It uses deterministic text-analysis logic to simulate the workflow of an AI study assistant.
+This project supports a developer and AI-focused career direction. It demonstrates React, HTML, CSS, JavaScript text analysis, user interaction, automated testing, and professional documentation.
 
 ## Features
 
-- Paste class notes or load sample notes
-- Generate a concise summary
-- Extract important keywords
-- Create clickable flashcards
-- Create practice quiz questions
-- Build a short study plan based on the user's goal
-- Hover over keywords for extra context
-- Includes automated tests for the study-generation logic
+- Demo login section
+- About user / learning profile section
+- Difficulty selector
+- Developer learning path section
+- Notes input area
+- Summary generator
+- Keyword extraction
+- Clickable flashcards
+- Quiz questions with revealable answers
+- Study plan generation
 
 ## Technologies Used
 
+- React
 - HTML
 - CSS
 - JavaScript
@@ -34,9 +45,7 @@ This project gives me a realistic way to practice those skills. The first versio
 
 ## Run Locally
 
-Open `index.html` in a browser.
-
-You can also use a local web server:
+Open `index.html` in a browser, or run a local server:
 
 ```bash
 python -m http.server 8000
@@ -54,16 +63,4 @@ http://localhost:8000
 npm test
 ```
 
-The tests validate keyword extraction, summary generation, flashcard creation, quiz generation, read-time estimation, and full study kit generation.
-
-## Portfolio Description
-
-AI Study Tool is an applied AI-style learning assistant that transforms notes into study materials. I built it to practice AI workflow design, JavaScript, text analysis, testing, and building a polished interactive project for a portfolio.
-
-## Future Improvements
-
-- Add optional OpenAI API support for more natural summaries
-- Let users export flashcards to CSV
-- Save previous study kits in browser storage
-- Add multiple-choice quiz mode
-- Add difficulty settings
+The tests validate keyword extraction, summary generation, flashcard creation, quiz generation, difficulty-based questions, read-time estimation, and full study kit generation.

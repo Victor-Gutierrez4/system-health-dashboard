@@ -90,27 +90,44 @@ export function createFlashcards(text, limit = 5) {
   });
 }
 
-export function createQuiz(text, limit = 4) {
+export function createQuiz(text, limit = 4, difficulty = "intermediate") {
   const flashcards = createFlashcards(text, limit);
 
   return flashcards.map((card, index) => ({
-    question: card.front.replace("What should you remember about", `Question ${index + 1}: Explain`),
+    question: formatQuestion(card.front, index, difficulty),
     answer: card.back
   }));
 }
 
-export function buildStudyPlan(topic, goal) {
+export function formatQuestion(front, index, difficulty) {
+  const term = front.match(/"([^"]+)"/)?.[1] || "this concept";
+  const prompts = {
+    beginner: `Question ${index + 1}: What is "${term}" in simple terms?`,
+    intermediate: `Question ${index + 1}: Explain how "${term}" connects to the main topic.`,
+    advanced: `Question ${index + 1}: Apply "${term}" to a realistic developer or IT scenario.`
+  };
+  return prompts[difficulty] || prompts.intermediate;
+}
+
+export function buildStudyPlan(topic, goal, difficulty = "intermediate") {
   const goalText = {
     exam: "focus on recall and practice questions",
     review: "focus on understanding the main ideas",
     presentation: "focus on explaining the topic clearly"
   }[goal] || "focus on reviewing the topic";
 
+  const difficultyText = {
+    beginner: "Start with definitions and one example per term.",
+    intermediate: "Connect concepts together and practice explaining tradeoffs.",
+    advanced: "Practice applying the concepts to scenarios, debugging, and design decisions."
+  }[difficulty] || "Connect concepts together and practice explaining tradeoffs.";
+
   return [
     `Spend 5 minutes skimming the summary for ${topic}.`,
     `Spend 10 minutes reviewing key terms and writing one example for each term.`,
     `Spend 10 minutes answering the practice quiz without looking at the answers.`,
     `Spend 5 minutes reviewing missed answers and deciding what to study next.`,
+    `Difficulty focus: ${difficultyText}`,
     `Study goal: ${goalText}.`
   ];
 }
@@ -123,13 +140,14 @@ export function estimateReadTime(text) {
 export function generateStudyKit(text, options = {}) {
   const topic = options.topic || "this topic";
   const goal = options.goal || "review";
+  const difficulty = options.difficulty || "intermediate";
 
   return {
     summary: buildSummary(text),
     keywords: extractKeywords(text),
     flashcards: createFlashcards(text),
-    quiz: createQuiz(text),
-    plan: buildStudyPlan(topic, goal),
+    quiz: createQuiz(text, 4, difficulty),
+    plan: buildStudyPlan(topic, goal, difficulty),
     readTimeMinutes: estimateReadTime(text)
   };
 }

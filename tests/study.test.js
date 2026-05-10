@@ -7,6 +7,7 @@ import {
   createQuiz,
   estimateReadTime,
   extractKeywords,
+  formatQuestion,
   generateStudyKit
 } from "../src/study.js";
 
@@ -28,12 +29,19 @@ test("builds a summary from important sentences", () => {
 
 test("creates flashcards and quiz questions", () => {
   const flashcards = createFlashcards(notes, 3);
-  const quiz = createQuiz(notes, 3);
+  const quiz = createQuiz(notes, 3, "advanced");
 
   assert.equal(flashcards.length, 3);
   assert.equal(quiz.length, 3);
   assert.ok(flashcards[0].front.includes("What should you remember"));
   assert.ok(quiz[0].question.includes("Question"));
+});
+
+test("formats questions by difficulty", () => {
+  const front = 'What should you remember about "router"?';
+
+  assert.ok(formatQuestion(front, 0, "beginner").includes("simple terms"));
+  assert.ok(formatQuestion(front, 0, "advanced").includes("scenario"));
 });
 
 test("estimates read time with a minimum of one minute", () => {
@@ -43,7 +51,8 @@ test("estimates read time with a minimum of one minute", () => {
 test("generates a complete study kit", () => {
   const kit = generateStudyKit(notes, {
     topic: "Networking",
-    goal: "exam"
+    goal: "exam",
+    difficulty: "advanced"
   });
 
   assert.ok(kit.summary.length > 0);
