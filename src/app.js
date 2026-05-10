@@ -24,6 +24,8 @@ const elements = {
   styleSummary: document.getElementById("styleSummary"),
   nameInput: document.getElementById("nameInput"),
   emailInput: document.getElementById("emailInput"),
+  connectAiButton: document.getElementById("connectAiButton"),
+  connectAiStatus: document.getElementById("connectAiStatus"),
   subjectInput: document.getElementById("subjectInput"),
   topicInput: document.getElementById("topicInput"),
   problemsInput: document.getElementById("problemsInput"),
@@ -260,14 +262,24 @@ function normalizeAIKit(aiKit, fallbackKit) {
 
 async function getAIStudyKit(topic, fallbackKit) {
   if (!window.puter?.ai?.chat) {
-    elements.aiStatus.textContent = "AI provider unavailable. Showing local fallback study guide.";
+    elements.aiStatus.textContent = "AI library unavailable. Check your connection or disable browser blockers, then refresh.";
+    return fallbackKit;
+  }
+
+  if (window.puter?.auth?.isSignedIn && !window.puter.auth.isSignedIn()) {
+    elements.aiStatus.textContent = "AI is not connected. Go back to the login screen and click Connect AI.";
     return fallbackKit;
   }
 
   elements.aiStatus.textContent = "Generating with AI...";
 
   try {
-    const response = await window.puter.ai.chat(buildStudyPrompt(topic), { model: "gpt-5-nano" });
+    let response;
+    try {
+      response = await window.puter.ai.chat(buildStudyPrompt(topic));
+    } catch {
+      response = await window.puter.ai.chat(buildStudyPrompt(topic), { model: "gpt-5-nano" });
+    }
     const aiText = extractAIText(response);
 
     try {
@@ -281,6 +293,25 @@ async function getAIStudyKit(topic, fallbackKit) {
   } catch (error) {
     elements.aiStatus.textContent = `AI request failed: ${error?.message || "provider unavailable"}. Showing local fallback guide.`;
     return fallbackKit;
+  }
+}
+
+async function connectAI() {
+  if (!window.puter?.auth?.signIn) {
+    elements.connectAiStatus.textContent = "AI connection failed: Puter.js did not load. Try refreshing or disabling browser blockers.";
+    return;
+  }
+
+  elements.connectAiStatus.textContent = "Opening AI sign-in...";
+
+  try {
+    if (!window.puter.auth.isSignedIn()) {
+      await window.puter.auth.signIn({ attempt_temp_user_creation: true });
+    }
+
+    elements.connectAiStatus.textContent = "AI connected. You can continue.";
+  } catch (error) {
+    elements.connectAiStatus.textContent = `AI connection failed: ${error?.message || "sign-in was not completed"}.`;
   }
 }
 
@@ -351,6 +382,8 @@ document.querySelectorAll("input, select, textarea").forEach((input) => {
 document.querySelectorAll(".methodInput").forEach((input) => {
   input.addEventListener("change", updateVisibleMethods);
 });
+
+elements.connectAiButton.addEventListener("click", connectAI);
 
 elements.subjectInput.addEventListener("change", () => {
   populateSpecificTopics();
