@@ -323,6 +323,44 @@ button {
   display: none;
 }
 
+.learner-controls {
+  margin-bottom: var(--layout-gap);
+}
+
+.lesson-tabs {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.lesson-tab {
+  padding: 10px;
+  color: var(--text-primary);
+  background: var(--neutral);
+}
+
+.lesson-tab.active {
+  color: var(--background);
+  background: var(--primary);
+}
+
+.lesson-stage {
+  margin-top: var(--layout-gap);
+}
+
+.lesson-panel {
+  display: none;
+}
+
+.lesson-panel.active {
+  display: block;
+}
+
+.lesson-panel h3 {
+  margin-top: var(--layout-gap);
+  margin-bottom: var(--text-block-margin);
+}
+
 .keyword-list {
   display: flex;
   flex-wrap: wrap;
@@ -386,6 +424,62 @@ button {
   margin: 6px 0 0;
 }
 
+.resource-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.resource-card {
+  position: relative;
+  display: grid;
+  min-height: 160px;
+  align-content: end;
+  overflow: hidden;
+  border: var(--card-border);
+  border-radius: var(--radius);
+  padding: 14px;
+  color: var(--text-primary);
+  background: var(--neutral);
+  text-decoration: none;
+  transition: transform 160ms ease, border-color 160ms ease;
+}
+
+.resource-card.video {
+  background:
+    linear-gradient(rgba(74, 144, 226, 0.82), rgba(80, 227, 194, 0.82)),
+    var(--neutral);
+}
+
+.resource-card:hover {
+  transform: translateY(-3px) scale(1.02);
+  border-color: var(--primary);
+}
+
+.resource-card span {
+  position: absolute;
+  left: 14px;
+  top: 12px;
+  border-radius: var(--radius);
+  padding: 4px 8px;
+  background: var(--background);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.resource-card p {
+  max-height: 0;
+  margin: 8px 0 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 180ms ease, opacity 180ms ease;
+}
+
+.resource-card:hover p {
+  max-height: 120px;
+  opacity: 1;
+}
+
 .flashcard:hover {
   background: var(--neutral);
 }
@@ -408,6 +502,8 @@ button {
   .two-column,
   .two-column.wide-left,
   .results-grid,
+  .lesson-tabs,
+  .resource-grid,
   .form-grid,
   .choice-grid {
     grid-template-columns: 1fr;

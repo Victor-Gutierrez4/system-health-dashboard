@@ -3,6 +3,22 @@ import { generateStudyKit } from "./study.js";
 const sampleNotes = `Subnetting is a networking method that divides one larger network into smaller network sections. An IP address identifies a device, while a subnet mask shows which part of the address is the network portion and which part is the host portion. Routers use network information to forward traffic between networks. Subnetting helps organize networks, reduce unnecessary traffic, and improve address management.`;
 const sampleProblems = `I get confused when deciding which part of the IP address is the network part and how the subnet mask changes the number of available hosts.`;
 
+const topicOptions = {
+  Technology: ["Computer basics", "Cloud computing", "Databases", "Artificial intelligence", "Web development"],
+  Cybersecurity: ["Phishing", "Password security", "Firewalls", "Malware", "Multi-factor authentication"],
+  Networking: ["Networking basics", "Subnetting", "Routers and switches", "DNS", "IP addressing"],
+  Programming: ["Python functions", "JavaScript arrays", "React components", "APIs", "Debugging"],
+  Mathematics: ["Algebra", "Fractions", "Linear equations", "Geometry", "Statistics"],
+  Science: ["Photosynthesis", "Cells", "Forces and motion", "Electricity", "Chemistry basics"],
+  History: ["World War II", "American Revolution", "Ancient Rome", "Civil Rights Movement", "Industrial Revolution"],
+  "English and Writing": ["Thesis statements", "Essay structure", "Grammar", "Reading comprehension", "Research writing"],
+  Business: ["Marketing basics", "Accounting basics", "Entrepreneurship", "Management", "Personal finance"],
+  Health: ["Nutrition", "Exercise basics", "Mental health", "First aid", "Human body systems"],
+  "Language Learning": ["Spanish basics", "French basics", "Vocabulary practice", "Verb conjugation", "Conversation practice"],
+  "Test Preparation": ["SAT reading", "SAT math", "ACT science", "CompTIA A+ basics", "Study skills"],
+  Other: ["Custom topic"]
+};
+
 const elements = {
   signedInName: document.getElementById("signedInName"),
   styleSummary: document.getElementById("styleSummary"),
@@ -17,6 +33,8 @@ const elements = {
   sampleButton: document.getElementById("sampleButton"),
   personalizedIntro: document.getElementById("personalizedIntro"),
   readTime: document.getElementById("readTime"),
+  lessonTabs: document.getElementById("lessonTabs"),
+  lessonOutput: document.getElementById("lessonOutput"),
   summaryOutput: document.getElementById("summaryOutput"),
   discussionOutput: document.getElementById("discussionOutput"),
   videoOutput: document.getElementById("videoOutput"),
@@ -49,6 +67,34 @@ function setPage(pageId) {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
+function setLessonStep(stepId) {
+  document.querySelectorAll(".lesson-panel").forEach((panel) => {
+    panel.classList.toggle("active", panel.id === stepId);
+  });
+
+  document.querySelectorAll(".lesson-tab").forEach((button) => {
+    button.classList.toggle("active", button.dataset.step === stepId);
+  });
+}
+
+function populateSpecificTopics() {
+  const subject = elements.subjectInput.value;
+  const options = topicOptions[subject] || topicOptions.Other;
+  const current = elements.topicInput.value;
+  clear(elements.topicInput);
+
+  options.forEach((topic) => {
+    const option = document.createElement("option");
+    option.value = topic;
+    option.textContent = topic;
+    elements.topicInput.appendChild(option);
+  });
+
+  if (options.includes(current)) {
+    elements.topicInput.value = current;
+  }
+}
+
 function renderList(container, items) {
   clear(container);
   items.forEach((text) => {
@@ -65,6 +111,19 @@ function renderInfoCards(container, items) {
     card.className = "method-card";
     card.innerHTML = `<strong>${item.title}</strong><p>${item.detail}</p>`;
     container.appendChild(card);
+  });
+}
+
+function renderResourceCards(container, items, type) {
+  clear(container);
+  items.forEach((item) => {
+    const link = document.createElement("a");
+    link.className = `resource-card ${type}`;
+    link.href = item.url;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.innerHTML = `<span>${item.source}</span><strong>${item.title}</strong><p>${item.preview}</p>`;
+    container.appendChild(link);
   });
 }
 
@@ -108,6 +167,12 @@ function updateVisibleMethods() {
   document.querySelectorAll("[data-method]").forEach((card) => {
     card.hidden = !methods.includes(card.dataset.method);
   });
+
+  const activePanel = document.querySelector(".lesson-panel.active");
+  if (activePanel?.hidden) {
+    const firstVisible = [...document.querySelectorAll(".lesson-panel")].find((panel) => !panel.hidden);
+    if (firstVisible) setLessonStep(firstVisible.id);
+  }
 }
 
 function buildStudyText(topic) {
@@ -132,9 +197,10 @@ function renderStudyGuide() {
   elements.readTime.textContent = `${kit.readTimeMinutes} min`;
   elements.summaryOutput.textContent = kit.summary || `Start by defining ${topic}, then study one example and practice explaining it.`;
 
+  renderInfoCards(elements.lessonOutput, kit.lesson);
   renderInfoCards(elements.discussionOutput, kit.discussion);
-  renderList(elements.videoOutput, kit.videoOutline);
-  renderList(elements.textbookOutput, kit.textbookGuide);
+  renderResourceCards(elements.videoOutput, kit.videoResources, "video");
+  renderResourceCards(elements.textbookOutput, kit.textResources, "text");
   renderList(elements.powerpointOutput, kit.powerpointOutline);
   renderKeywords(kit.keywords);
   renderFlashcards(kit.flashcards);
@@ -146,6 +212,7 @@ function renderStudyGuide() {
 
 function loadSample() {
   elements.subjectInput.value = "Networking";
+  populateSpecificTopics();
   elements.topicInput.value = "Subnetting";
   elements.notesInput.value = sampleNotes;
   elements.problemsInput.value = sampleProblems;
@@ -158,6 +225,11 @@ document.querySelectorAll(".page-next").forEach((button) => {
   button.addEventListener("click", () => setPage(button.dataset.page));
 });
 
+elements.lessonTabs.addEventListener("click", (event) => {
+  const button = event.target.closest(".lesson-tab");
+  if (button) setLessonStep(button.dataset.step);
+});
+
 document.querySelectorAll("input, select, textarea").forEach((input) => {
   input.addEventListener("input", renderStudyGuide);
   input.addEventListener("change", renderStudyGuide);
@@ -167,6 +239,12 @@ document.querySelectorAll(".methodInput").forEach((input) => {
   input.addEventListener("change", updateVisibleMethods);
 });
 
+elements.subjectInput.addEventListener("change", () => {
+  populateSpecificTopics();
+  renderStudyGuide();
+});
+
 elements.sampleButton.addEventListener("click", loadSample);
 
+populateSpecificTopics();
 loadSample();

@@ -9,7 +9,10 @@ import {
   createPowerPointOutline,
   createPracticeProblems,
   createQuiz,
+  createTextResources,
   createTextbookGuide,
+  createTutorLesson,
+  createVideoResources,
   createVideoOutline,
   estimateReadTime,
   extractKeywords,
@@ -74,6 +77,9 @@ test("generates a complete study kit", () => {
   assert.ok(kit.videoOutline.length > 0);
   assert.ok(kit.textbookGuide.length > 0);
   assert.ok(kit.powerpointOutline.length > 0);
+  assert.ok(kit.lesson.length > 0);
+  assert.ok(kit.videoResources.length > 0);
+  assert.ok(kit.textResources.length > 0);
   assert.ok(kit.plan.some((step) => step.includes("Networking")));
 });
 
@@ -97,4 +103,14 @@ test("creates multiple learning resource formats", () => {
   assert.ok(createVideoOutline("Algebra").some((item) => item.includes("Opening hook")));
   assert.ok(createTextbookGuide("Biology", notes).some((item) => item.includes("Before reading")));
   assert.ok(createPowerPointOutline("Networking", notes).some((item) => item.includes("Slide 1")));
+});
+
+test("creates tutor lesson and web resources", () => {
+  const lesson = createTutorLesson("Subnetting", notes, "subnet masks", "intermediate");
+  const videos = createVideoResources("Subnetting");
+  const texts = createTextResources("Subnetting");
+
+  assert.ok(lesson.some((item) => item.detail.includes("subnet masks")));
+  assert.ok(videos.every((item) => item.url.includes("youtube.com")));
+  assert.ok(texts.some((item) => item.source === "Khan Academy"));
 });

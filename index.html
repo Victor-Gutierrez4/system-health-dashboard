@@ -69,7 +69,7 @@
             </label>
             <label>
               Specific Topic
-              <input id="topicInput" value="Networking basics" placeholder="Example: subnetting, photosynthesis, algebra, essays">
+              <select id="topicInput"></select>
             </label>
           </div>
           <label class="full-field">
@@ -156,56 +156,65 @@
           </div>
         </header>
 
-        <section class="results-grid" id="resultsGrid">
-          <article class="result-card wide" data-method="summary">
+        <section class="section-panel learner-controls">
+          <div class="section-heading">
+            <h2>Learning Process</h2>
+            <span>Work through one section at a time</span>
+          </div>
+          <div class="lesson-tabs" id="lessonTabs">
+            <button class="lesson-tab active" data-step="lessonPanel" type="button">AI Lesson</button>
+            <button class="lesson-tab" data-step="examplesPanel" type="button">Examples</button>
+            <button class="lesson-tab" data-step="videosPanel" type="button">Videos</button>
+            <button class="lesson-tab" data-step="textPanel" type="button">Text</button>
+            <button class="lesson-tab" data-step="flashcardsPanel" type="button">Flashcards</button>
+            <button class="lesson-tab" data-step="quizPanel" type="button">Quiz</button>
+            <button class="lesson-tab" data-step="planPanel" type="button">Plan</button>
+          </div>
+        </section>
+
+        <section class="lesson-stage" id="lessonStage">
+          <article class="result-card lesson-panel active" id="lessonPanel" data-method="summary">
             <div class="section-heading">
-              <h2>Simple Explanation</h2>
+              <h2>AI Tutor Lesson</h2>
               <span>Start here</span>
             </div>
+            <div class="stack" id="lessonOutput"></div>
+            <h3>Simple Explanation</h3>
             <p id="summaryOutput"></p>
           </article>
 
-          <article class="result-card" data-method="discussion">
+          <article class="result-card lesson-panel" id="examplesPanel" data-method="discussion">
             <div class="section-heading">
-              <h2>Discussion Prompts</h2>
+              <h2>Examples and Discussion</h2>
               <span>Talk it out</span>
             </div>
             <div class="stack" id="discussionOutput"></div>
-          </article>
-
-          <article class="result-card" data-method="video">
+            <h3>Key Terms</h3>
             <div class="section-heading">
-              <h2>Video Lesson Outline</h2>
-              <span>Watch-style</span>
-            </div>
-            <ol class="path-list" id="videoOutput"></ol>
-          </article>
-
-          <article class="result-card" data-method="textbook">
-            <div class="section-heading">
-              <h2>Textbook Reading Guide</h2>
-              <span>Read-style</span>
-            </div>
-            <ol class="path-list" id="textbookOutput"></ol>
-          </article>
-
-          <article class="result-card" data-method="powerpoint">
-            <div class="section-heading">
-              <h2>PowerPoint Outline</h2>
-              <span>Slides</span>
-            </div>
-            <ol class="path-list" id="powerpointOutput"></ol>
-          </article>
-
-          <article class="result-card">
-            <div class="section-heading">
-              <h2>Key Terms</h2>
               <span>Hover</span>
             </div>
             <div class="keyword-list" id="keywordsOutput"></div>
           </article>
 
-          <article class="result-card" data-method="flashcards">
+          <article class="result-card lesson-panel" id="videosPanel" data-method="video">
+            <div class="section-heading">
+              <h2>YouTube Video Suggestions</h2>
+              <span>Hover for preview</span>
+            </div>
+            <div class="resource-grid" id="videoOutput"></div>
+          </article>
+
+          <article class="result-card lesson-panel" id="textPanel" data-method="textbook">
+            <div class="section-heading">
+              <h2>Text Resources</h2>
+              <span>Articles and websites</span>
+            </div>
+            <div class="resource-grid" id="textbookOutput"></div>
+            <h3>PowerPoint Outline</h3>
+            <ol class="path-list" id="powerpointOutput"></ol>
+          </article>
+
+          <article class="result-card lesson-panel" id="flashcardsPanel" data-method="flashcards">
             <div class="section-heading">
               <h2>Flashcards</h2>
               <span>Click to flip</span>
@@ -213,23 +222,20 @@
             <div class="stack" id="flashcardsOutput"></div>
           </article>
 
-          <article class="result-card" data-method="quiz">
+          <article class="result-card lesson-panel" id="quizPanel" data-method="quiz">
             <div class="section-heading">
               <h2>Practice Quiz</h2>
               <span>Reveal answers</span>
             </div>
             <div class="stack" id="quizOutput"></div>
-          </article>
-
-          <article class="result-card" data-method="practice">
+            <h3>Practice Problems</h3>
             <div class="section-heading">
-              <h2>Practice Problems</h2>
               <span>Try it</span>
             </div>
             <div class="stack" id="practiceOutput"></div>
           </article>
 
-          <article class="result-card wide" data-method="plan">
+          <article class="result-card lesson-panel" id="planPanel" data-method="plan">
             <div class="section-heading">
               <h2>Study Plan</h2>
               <span>Personalized</span>

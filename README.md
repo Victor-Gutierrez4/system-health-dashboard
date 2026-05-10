@@ -14,7 +14,7 @@ The site uses a multi-page flow:
 - Enter a name and learning profile
 - Choose what they are interested in studying
 - Choose a broad subject from a dropdown
-- Specify the exact topic they want to learn
+- Choose a more specific topic from a subject-based dropdown
 - Describe problems or confusing parts
 - Choose difficulty level
 - Choose preferred learning style and study pace
@@ -24,13 +24,14 @@ The site uses a multi-page flow:
 ## Learning Outputs
 
 - Simple explanation of the topic
+- Guided AI tutor lesson
 - Different ways to learn it
 - Key terms
 - Flashcards
 - Practice quiz
 - Discussion prompts
-- Video lesson outline
-- Textbook reading guide
+- YouTube video suggestion cards
+- Text resource cards with article/website links
 - PowerPoint outline
 - Practice problems
 - Personalized study plan

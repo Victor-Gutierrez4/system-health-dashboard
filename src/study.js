@@ -155,6 +155,7 @@ export function generateStudyKit(text, options = {}) {
 
   return {
     summary: buildSummary(combinedText),
+    lesson: createTutorLesson(topic, combinedText, problems, difficulty),
     keywords: extractKeywords(combinedText),
     flashcards: createFlashcards(combinedText),
     quiz: createQuiz(combinedText, 4, difficulty),
@@ -163,10 +164,38 @@ export function generateStudyKit(text, options = {}) {
     discussion: createDiscussionPrompts(topic, combinedText, problems),
     videoOutline: createVideoOutline(topic, difficulty),
     textbookGuide: createTextbookGuide(topic, combinedText),
+    textResources: createTextResources(topic),
+    videoResources: createVideoResources(topic),
     powerpointOutline: createPowerPointOutline(topic, combinedText),
     plan: buildStudyPlan(topic, goal, difficulty, pace),
     readTimeMinutes: estimateReadTime(combinedText)
   };
+}
+
+export function createTutorLesson(topic, text, problems = "", difficulty = "intermediate") {
+  const keywords = extractKeywords(text, 5).map((item) => item.term);
+  const learnerProblem = problems.trim() || `understanding the main parts of ${topic}`;
+
+  return [
+    {
+      title: "1. Big idea",
+      detail: `${topic} is easier to learn when you separate the main concept from the details. First, identify what the topic is trying to explain, solve, or describe.`
+    },
+    {
+      title: "2. Core vocabulary",
+      detail: `Focus on these terms first: ${keywords.join(", ") || topic}. If a term is unclear, write a one-sentence definition before moving on.`
+    },
+    {
+      title: "3. Your confusion point",
+      detail: `You said the hard part is: ${learnerProblem}. Study this by finding one example, one non-example, and one step-by-step explanation.`
+    },
+    {
+      title: "4. How to know you understand it",
+      detail: difficulty === "advanced"
+        ? `You understand ${topic} when you can apply it to a new scenario and explain why your answer works.`
+        : `You understand ${topic} when you can explain it simply without reading your notes.`
+    }
+  ];
 }
 
 export function createLearningMethods(topic, style = "mixed", difficulty = "intermediate") {
@@ -255,5 +284,59 @@ export function createPowerPointOutline(topic, text) {
     "Slide 4: Step-by-step explanation or example",
     "Slide 5: Common mistakes or confusing parts",
     "Slide 6: Practice question and answer"
+  ];
+}
+
+export function createVideoResources(topic) {
+  const query = encodeURIComponent(topic);
+  return [
+    {
+      title: `${topic} explained visually`,
+      source: "YouTube search",
+      url: `https://www.youtube.com/results?search_query=${query}+explained+visually`,
+      preview: `Find a visual explanation of ${topic} with diagrams or walkthroughs.`
+    },
+    {
+      title: `${topic} beginner tutorial`,
+      source: "YouTube search",
+      url: `https://www.youtube.com/results?search_query=${query}+beginner+tutorial`,
+      preview: `Look for a beginner-friendly lesson that introduces ${topic} slowly.`
+    },
+    {
+      title: `${topic} practice problems`,
+      source: "YouTube search",
+      url: `https://www.youtube.com/results?search_query=${query}+practice+problems`,
+      preview: `Use this to find guided practice videos where someone solves problems step by step.`
+    }
+  ];
+}
+
+export function createTextResources(topic) {
+  const query = encodeURIComponent(topic);
+  return [
+    {
+      title: `Wikipedia overview for ${topic}`,
+      source: "Wikipedia",
+      url: `https://en.wikipedia.org/wiki/Special:Search?search=${query}`,
+      preview: "Useful for a broad overview, definitions, and related terms."
+    },
+    {
+      title: `Khan Academy search for ${topic}`,
+      source: "Khan Academy",
+      url: `https://www.khanacademy.org/search?page_search_query=${query}`,
+      preview: "Useful for structured lessons, especially math, science, economics, and computing."
+    },
+    {
+      title: `Britannica search for ${topic}`,
+      source: "Britannica",
+      url: `https://www.britannica.com/search?query=${query}`,
+      preview: "Useful for reliable encyclopedia-style explanations."
+    },
+    {
+      title: `Google Scholar search for ${topic}`,
+      source: "Google Scholar",
+      url: `https://scholar.google.com/scholar?q=${query}`,
+      preview: "Useful for deeper academic articles and research sources."
+    }
   ];
 }
