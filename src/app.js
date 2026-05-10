@@ -222,6 +222,28 @@ function parseAIJson(responseText) {
   return JSON.parse(jsonText);
 }
 
+function extractAIText(response) {
+  if (typeof response === "string") return response;
+  if (response?.message?.content) return response.message.content;
+  if (response?.text) return response.text;
+  if (response?.content) return response.content;
+  if (response?.output_text) return response.output_text;
+  return String(response || "");
+}
+
+function kitFromPlainAIText(aiText, fallbackKit) {
+  return {
+    ...fallbackKit,
+    summary: aiText,
+    lesson: [
+      {
+        title: "AI Tutor Response",
+        detail: aiText
+      }
+    ]
+  };
+}
+
 function normalizeAIKit(aiKit, fallbackKit) {
   return {
     ...fallbackKit,
@@ -245,13 +267,19 @@ async function getAIStudyKit(topic, fallbackKit) {
   elements.aiStatus.textContent = "Generating with AI...";
 
   try {
-    const response = await window.puter.ai.chat(buildStudyPrompt(topic));
-    const aiText = typeof response === "string" ? response : response?.message?.content || response?.text || String(response);
-    const aiKit = parseAIJson(aiText);
-    elements.aiStatus.textContent = "AI-generated lesson ready.";
-    return normalizeAIKit(aiKit, fallbackKit);
+    const response = await window.puter.ai.chat(buildStudyPrompt(topic), { model: "gpt-5-nano" });
+    const aiText = extractAIText(response);
+
+    try {
+      const aiKit = parseAIJson(aiText);
+      elements.aiStatus.textContent = "AI-generated lesson ready.";
+      return normalizeAIKit(aiKit, fallbackKit);
+    } catch {
+      elements.aiStatus.textContent = "AI responded, but not as structured JSON. Showing the AI explanation.";
+      return kitFromPlainAIText(aiText, fallbackKit);
+    }
   } catch (error) {
-    elements.aiStatus.textContent = "AI request failed, so the local fallback guide is shown.";
+    elements.aiStatus.textContent = `AI request failed: ${error?.message || "provider unavailable"}. Showing local fallback guide.`;
     return fallbackKit;
   }
 }
