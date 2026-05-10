@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>System Health Checker Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">IT Operations Portfolio Project</p>
+          <h1>System Health Checker Dashboard</h1>
+        </div>
+        <div class="status-badge" id="overallStatus">Loading</div>
+      </header>
+
+      <section class="hero-panel">
+        <div>
+          <h2>Current System Snapshot</h2>
+          <p>
+            A small dashboard for reviewing basic system health, spotting warning signs,
+            and communicating clear next steps for IT support.
+          </p>
+        </div>
+        <button class="primary-action" id="refreshButton" type="button">Run Scan</button>
+      </section>
+
+      <section class="metrics-grid" aria-label="System health metrics">
+        <article class="metric-card" id="cpuCard">
+          <span class="metric-label">CPU Usage</span>
+          <strong id="cpuValue">--</strong>
+          <small id="cpuStatus">Waiting</small>
+        </article>
+        <article class="metric-card" id="memoryCard">
+          <span class="metric-label">Memory Usage</span>
+          <strong id="memoryValue">--</strong>
+          <small id="memoryStatus">Waiting</small>
+        </article>
+        <article class="metric-card" id="diskCard">
+          <span class="metric-label">Disk Usage</span>
+          <strong id="diskValue">--</strong>
+          <small id="diskStatus">Waiting</small>
+        </article>
+        <article class="metric-card" id="networkCard">
+          <span class="metric-label">Network</span>
+          <strong id="networkValue">--</strong>
+          <small id="networkStatus">Waiting</small>
+        </article>
+      </section>
+
+      <section class="content-grid">
+        <article class="panel">
+          <div class="panel-heading">
+            <h2>System Details</h2>
+            <span id="lastScan">Not scanned yet</span>
+          </div>
+          <div class="details-list">
+            <div><span>Uptime</span><strong id="uptimeValue">--</strong></div>
+            <div><span>Running Processes</span><strong id="processValue">--</strong></div>
+            <div><span>Battery</span><strong id="batteryValue">--</strong></div>
+            <div><span>Common Ports</span><strong id="portsValue">--</strong></div>
+          </div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-heading">
+            <h2>Recommendations</h2>
+            <span>Next steps</span>
+          </div>
+          <ul class="recommendations" id="recommendations"></ul>
+        </article>
+      </section>
+
+      <section class="panel">
+        <div class="panel-heading">
+          <h2>Recent System Load</h2>
+          <span>Sample trend</span>
+        </div>
+        <div class="bar-chart" id="loadChart" aria-label="Recent system load chart"></div>
+      </section>
+    </main>
+
+    <script type="module" src="src/app.js"></script>
+  </body>
+</html>
+

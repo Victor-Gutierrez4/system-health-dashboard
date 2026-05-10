@@ -1,0 +1,18 @@
+{
+  "name": "system-health-dashboard",
+  "version": "1.0.0",
+  "description": "A small IT portfolio project that visualizes system health checks and recommendations.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  },
+  "keywords": [
+    "it-support",
+    "system-monitoring",
+    "portfolio",
+    "javascript"
+  ],
+  "author": "Victor Gutierrez",
+  "license": "MIT"
+}
+
