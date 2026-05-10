@@ -26,11 +26,55 @@
         </div>
         <div class="actions">
           <div class="segmented-control" aria-label="Scan mode">
-            <button class="mode-button active" id="sampleMode" type="button">Sample Scan</button>
+            <button class="mode-button active" id="profileMode" type="button">Device Profile</button>
             <button class="mode-button" id="liveMode" type="button">Live Browser Check</button>
           </div>
           <button class="primary-action" id="refreshButton" type="button">Run Scan</button>
         </div>
+      </section>
+
+      <section class="panel input-panel">
+        <div class="panel-heading">
+          <h2>Device Profile</h2>
+          <span>Enter values from your device</span>
+        </div>
+        <form class="profile-form" id="deviceProfile">
+          <label>
+            CPU Usage %
+            <input id="cpuInput" type="number" min="0" max="100" value="28">
+          </label>
+          <label>
+            Memory Usage %
+            <input id="memoryInput" type="number" min="0" max="100" value="82">
+          </label>
+          <label>
+            Disk Usage %
+            <input id="diskInput" type="number" min="0" max="100" value="64">
+          </label>
+          <label>
+            Uptime Hours
+            <input id="uptimeInput" type="number" min="0" max="10000" value="214">
+          </label>
+          <label>
+            Process Count
+            <input id="processInput" type="number" min="0" max="10000" value="146">
+          </label>
+          <label>
+            Battery %
+            <input id="batteryInput" type="number" min="0" max="100" value="71">
+          </label>
+          <label>
+            Network Connected
+            <select id="networkInput">
+              <option value="true">Yes</option>
+              <option value="false">No</option>
+            </select>
+          </label>
+          <label>
+            Open Common Ports
+            <input id="portsInput" type="text" value="80, 443, 3389" placeholder="Example: 80, 443, 3389">
+          </label>
+        </form>
       </section>
 
       <section class="metrics-grid" aria-label="System health metrics">
@@ -67,12 +111,12 @@
             <span id="lastScan">Not scanned yet</span>
           </div>
           <div class="details-list">
-            <div><span>Uptime</span><strong id="uptimeValue">--</strong></div>
-            <div><span>Running Processes</span><strong id="processValue">--</strong></div>
-            <div><span>Battery</span><strong id="batteryValue">--</strong></div>
-            <div><span>Common Ports</span><strong id="portsValue">--</strong></div>
-            <div><span>Browser Storage</span><strong id="storageValue">--</strong></div>
-            <div><span>Connection Type</span><strong id="connectionValue">--</strong></div>
+            <div class="detail-card" tabindex="0"><span>Uptime</span><strong id="uptimeValue">--</strong><p>Long uptime can mean updates are pending or background issues have built up.</p></div>
+            <div class="detail-card" tabindex="0"><span>Running Processes</span><strong id="processValue">--</strong><p>A high process count can point to heavy startup apps or unnecessary background services.</p></div>
+            <div class="detail-card" tabindex="0"><span>Battery</span><strong id="batteryValue">--</strong><p>Low battery or unavailable battery data helps identify whether the device is desktop or laptop-like.</p></div>
+            <div class="detail-card" tabindex="0"><span>Common Ports</span><strong id="portsValue">--</strong><p>Ports represent network services. Telnet 23 is risky, and RDP 3389 should be reviewed carefully.</p></div>
+            <div class="detail-card" tabindex="0"><span>Browser Storage</span><strong id="storageValue">--</strong><p>Browser storage is a safe web estimate, not the full hard drive usage.</p></div>
+            <div class="detail-card" tabindex="0"><span>Connection Type</span><strong id="connectionValue">--</strong><p>Connection type is reported by the browser when supported, such as 4g, wifi-like, or unknown.</p></div>
           </div>
         </article>
 

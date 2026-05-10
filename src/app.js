@@ -1,43 +1,46 @@
 import { analyzeSystemHealth } from "./health.js";
 
-const sampleScans = [
-  {
-    cpuUsage: 28,
-    memoryUsage: 82,
-    diskUsage: 64,
-    networkConnected: true,
-    uptimeHours: 214,
-    processCount: 146,
-    batteryPercent: 71,
-    openPorts: [80, 443, 3389],
-    loadTrend: [22, 28, 31, 26, 44, 52, 48, 59, 61, 58, 65, 57]
-  },
-  {
-    cpuUsage: 18,
-    memoryUsage: 46,
-    diskUsage: 51,
-    networkConnected: true,
-    uptimeHours: 36,
-    processCount: 91,
-    batteryPercent: 88,
-    openPorts: [443],
-    loadTrend: [18, 21, 19, 22, 25, 24, 28, 27, 30, 26, 24, 23]
-  },
-  {
-    cpuUsage: 91,
-    memoryUsage: 88,
-    diskUsage: 93,
-    networkConnected: false,
-    uptimeHours: 260,
-    processCount: 205,
-    batteryPercent: 19,
-    openPorts: [23, 80, 443],
-    loadTrend: [62, 71, 75, 82, 88, 91, 84, 90, 93, 87, 91, 89]
-  }
-];
+let mode = "profile";
 
-let scanIndex = 0;
-let mode = "sample";
+function clampNumber(value, min, max, fallback) {
+  const parsed = Number(value);
+  if (Number.isNaN(parsed)) return fallback;
+  return Math.min(max, Math.max(min, parsed));
+}
+
+function parsePorts(value) {
+  return value
+    .split(",")
+    .map((port) => Number(port.trim()))
+    .filter((port) => Number.isInteger(port) && port > 0 && port <= 65535);
+}
+
+function buildTrendFromProfile(cpuUsage, memoryUsage) {
+  const base = Math.round((cpuUsage + memoryUsage) / 2);
+  return [-14, -9, -5, -7, 0, 6, 3, 9, 12, 7, 4, 0].map((offset) =>
+    Math.max(8, Math.min(95, base + offset))
+  );
+}
+
+function collectProfileScan() {
+  const cpuUsage = clampNumber(document.getElementById("cpuInput").value, 0, 100, 28);
+  const memoryUsage = clampNumber(document.getElementById("memoryInput").value, 0, 100, 82);
+  const diskUsage = clampNumber(document.getElementById("diskInput").value, 0, 100, 64);
+
+  return {
+    cpuUsage,
+    memoryUsage,
+    diskUsage,
+    networkConnected: document.getElementById("networkInput").value === "true",
+    uptimeHours: clampNumber(document.getElementById("uptimeInput").value, 0, 10000, 214),
+    processCount: clampNumber(document.getElementById("processInput").value, 0, 10000, 146),
+    batteryPercent: clampNumber(document.getElementById("batteryInput").value, 0, 100, 71),
+    openPorts: parsePorts(document.getElementById("portsInput").value),
+    storageUsage: diskUsage,
+    connectionType: "user entered",
+    loadTrend: buildTrendFromProfile(cpuUsage, memoryUsage)
+  };
+}
 
 function estimateBrowserMemory() {
   if (performance.memory?.usedJSHeapSize && performance.memory?.jsHeapSizeLimit) {
@@ -105,16 +108,16 @@ function renderDashboard(data) {
 
   document.getElementById("cpuInfo").textContent = data.live
     ? "Browser pages cannot read real CPU usage, so this is a browser-performance estimate."
-    : "Sample CPU status. In a local agent version, this would come from the operating system.";
+    : "This value comes from the device profile you entered. Check Task Manager for the real CPU percentage.";
   document.getElementById("memoryInfo").textContent = data.live
     ? "Uses browser memory data when supported. Some browsers hide this information."
-    : "Sample memory status used to demonstrate IT troubleshooting recommendations.";
+    : "This value comes from the device profile you entered. Check Task Manager for real memory usage.";
   document.getElementById("diskInfo").textContent = data.live
     ? "Uses browser storage quota as a safe web equivalent, not full hard-drive health."
-    : "Sample disk status. A desktop version could check real drive usage.";
+    : "This value comes from the device profile you entered. Check Windows storage settings for real disk usage.";
   document.getElementById("networkInfo").textContent = data.live
     ? "Uses the browser online/offline signal and connection API when available."
-    : "Sample network status. Useful for explaining first-step connectivity checks.";
+    : "This value comes from the device profile you entered and is used for troubleshooting recommendations.";
 
   document.getElementById("uptimeValue").textContent = `${data.uptimeHours} hours`;
   document.getElementById("processValue").textContent = `${data.processCount} active`;
@@ -142,13 +145,14 @@ function renderDashboard(data) {
 
 function setMode(nextMode) {
   mode = nextMode;
-  document.getElementById("sampleMode").classList.toggle("active", mode === "sample");
+  document.getElementById("profileMode").classList.toggle("active", mode === "profile");
   document.getElementById("liveMode").classList.toggle("active", mode === "live");
+  document.querySelector(".input-panel").hidden = mode !== "profile";
 }
 
-document.getElementById("sampleMode").addEventListener("click", () => {
-  setMode("sample");
-  renderDashboard(sampleScans[scanIndex]);
+document.getElementById("profileMode").addEventListener("click", () => {
+  setMode("profile");
+  renderDashboard(collectProfileScan());
 });
 
 document.getElementById("liveMode").addEventListener("click", async () => {
@@ -164,8 +168,7 @@ document.getElementById("refreshButton").addEventListener("click", async () => {
     return;
   }
 
-  scanIndex = (scanIndex + 1) % sampleScans.length;
-  renderDashboard(sampleScans[scanIndex]);
+  renderDashboard(collectProfileScan());
 });
 
-renderDashboard(sampleScans[scanIndex]);
+renderDashboard(collectProfileScan());

@@ -21,8 +21,10 @@ The dashboard displays:
 The page includes hover/click interactions:
 
 - Hover over metric cards to see what each check means.
+- Hover over system detail cards to see why each detail matters.
 - Click recommendations to expand suggested actions.
-- Switch between sample scans and live browser-safe checks.
+- Switch between user-entered device profile scans and live browser-safe checks.
+- Use Device Profile mode to enter values from the user's actual machine.
 
 ## Why I Built It
 
