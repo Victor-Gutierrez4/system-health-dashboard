@@ -230,17 +230,39 @@ function extractAIText(response) {
   if (response?.text) return response.text;
   if (response?.content) return response.content;
   if (response?.output_text) return response.output_text;
+  if (Array.isArray(response)) {
+    return response.map(extractAIText).filter(Boolean).join("\n");
+  }
+  if (typeof response === "object" && response !== null) {
+    const likelyText = [
+      response.result,
+      response.response,
+      response.answer,
+      response.value,
+      response.output,
+      response.data
+    ].map(extractAIText).filter(Boolean).join("\n");
+
+    if (likelyText) return likelyText;
+
+    try {
+      return JSON.stringify(response);
+    } catch {
+      return "";
+    }
+  }
   return String(response || "");
 }
 
 function kitFromPlainAIText(aiText, fallbackKit) {
+  const readableText = aiText === "[object Object]" ? fallbackKit.summary : aiText;
   return {
     ...fallbackKit,
-    summary: aiText,
+    summary: readableText,
     lesson: [
       {
         title: "AI Tutor Response",
-        detail: aiText
+        detail: readableText
       }
     ]
   };
