@@ -3,92 +3,106 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>System Health Checker Dashboard</title>
+    <title>AI Study Tool</title>
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
-    <main class="shell">
+    <main class="app-shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow">IT Operations Portfolio Project</p>
-          <h1>System Health Checker Dashboard</h1>
-        </div>
-        <div class="status-badge" id="overallStatus">Loading</div>
-      </header>
-
-      <section class="hero-panel">
-        <div>
-          <h2>Live Browser Check</h2>
-          <p>
-            A browser-safe dashboard for reviewing live device, network, storage,
-            performance, and privacy signals available to a web page.
+          <p class="eyebrow">Applied AI Portfolio Project</p>
+          <h1>AI Study Tool</h1>
+          <p class="intro">
+            Paste class notes and turn them into a study summary, key terms,
+            flashcards, quiz questions, and a focused study plan.
           </p>
         </div>
-        <div class="actions">
-          <button class="primary-action" id="refreshButton" type="button">Run Live Browser Check</button>
+        <div class="status-card">
+          <span>Mode</span>
+          <strong>Local AI-style Engine</strong>
         </div>
-      </section>
+      </header>
 
-      <section class="metrics-grid" aria-label="Browser health metrics">
-        <article class="metric-card" id="cpuCard" tabindex="0">
-          <span class="metric-label">Browser Load</span>
-          <strong id="cpuValue">--</strong>
-          <small id="cpuStatus">Waiting</small>
-          <div class="metric-popover" id="cpuInfo"></div>
-        </article>
-        <article class="metric-card" id="memoryCard" tabindex="0">
-          <span class="metric-label">Browser Memory</span>
-          <strong id="memoryValue">--</strong>
-          <small id="memoryStatus">Waiting</small>
-          <div class="metric-popover" id="memoryInfo"></div>
-        </article>
-        <article class="metric-card" id="diskCard" tabindex="0">
-          <span class="metric-label">Browser Storage</span>
-          <strong id="diskValue">--</strong>
-          <small id="diskStatus">Waiting</small>
-          <div class="metric-popover" id="diskInfo"></div>
-        </article>
-        <article class="metric-card" id="networkCard" tabindex="0">
-          <span class="metric-label">Network</span>
-          <strong id="networkValue">--</strong>
-          <small id="networkStatus">Waiting</small>
-          <div class="metric-popover" id="networkInfo"></div>
-        </article>
-      </section>
-
-      <section class="content-grid">
-        <article class="panel">
+      <section class="workspace">
+        <form class="input-panel" id="studyForm">
           <div class="panel-heading">
-            <h2>Browser and Device Details</h2>
-            <span id="lastScan">Not scanned yet</span>
+            <h2>Study Notes</h2>
+            <button class="ghost-button" id="sampleButton" type="button">Load Sample</button>
           </div>
-          <div class="details-list" id="detailsList"></div>
-        </article>
+          <textarea id="notesInput" minlength="80" placeholder="Paste notes from class, a textbook section, or a study guide here..."></textarea>
+          <div class="controls">
+            <label>
+              Course Topic
+              <input id="topicInput" type="text" value="Information Technology">
+            </label>
+            <label>
+              Study Goal
+              <select id="goalInput">
+                <option value="exam">Prepare for an exam</option>
+                <option value="review">Review key concepts</option>
+                <option value="presentation">Prepare to explain the topic</option>
+              </select>
+            </label>
+            <button class="primary-button" type="submit">Generate Study Kit</button>
+          </div>
+        </form>
 
-        <article class="panel">
+        <aside class="how-panel">
+          <h2>What It Creates</h2>
+          <ul>
+            <li>Short summary</li>
+            <li>Important keywords</li>
+            <li>Flashcards</li>
+            <li>Practice quiz</li>
+            <li>Study plan</li>
+          </ul>
+          <p>
+            This version runs in the browser without an API key. It uses text analysis
+            rules to simulate the workflow of an AI study assistant.
+          </p>
+        </aside>
+      </section>
+
+      <section class="results-grid" id="results" aria-live="polite">
+        <article class="result-card wide">
           <div class="panel-heading">
-            <h2>Recommendations</h2>
-            <span>Next steps</span>
+            <h2>Summary</h2>
+            <span id="readTime">Waiting for notes</span>
           </div>
-          <ul class="recommendations" id="recommendations"></ul>
+          <p id="summaryOutput">Generate a study kit to see a concise summary here.</p>
         </article>
-      </section>
 
-      <section class="panel notice">
-        <strong>Live check note:</strong>
-        <span>
-          GitHub Pages can run browser-safe checks only. Real CPU, running processes,
-          open ports, and full disk checks require a local desktop script or backend agent
-          with system permission.
-        </span>
-      </section>
+        <article class="result-card">
+          <div class="panel-heading">
+            <h2>Key Terms</h2>
+            <span>Hover for context</span>
+          </div>
+          <div class="keyword-list" id="keywordsOutput"></div>
+        </article>
 
-      <section class="panel">
-        <div class="panel-heading">
-          <h2>Recent Browser Performance</h2>
-          <span>Live resource timing</span>
-        </div>
-        <div class="bar-chart" id="loadChart" aria-label="Recent browser performance chart"></div>
+        <article class="result-card">
+          <div class="panel-heading">
+            <h2>Flashcards</h2>
+            <span>Click to flip</span>
+          </div>
+          <div class="flashcard-list" id="flashcardsOutput"></div>
+        </article>
+
+        <article class="result-card">
+          <div class="panel-heading">
+            <h2>Practice Quiz</h2>
+            <span>Check yourself</span>
+          </div>
+          <div class="quiz-list" id="quizOutput"></div>
+        </article>
+
+        <article class="result-card wide">
+          <div class="panel-heading">
+            <h2>Study Plan</h2>
+            <span>Next 30 minutes</span>
+          </div>
+          <ol class="study-plan" id="planOutput"></ol>
+        </article>
       </section>
     </main>
 

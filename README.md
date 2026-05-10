@@ -1,36 +1,28 @@
-# System Health Checker Dashboard
+# AI Study Tool
 
-System Health Checker Dashboard is a small IT portfolio project that presents browser-safe device, network, storage, privacy, and performance information in a clean web dashboard. It is designed for entry-level IT support, systems support, networking support, and IT operations career paths.
+AI Study Tool is a small portfolio project that turns pasted notes into a study summary, key terms, flashcards, quiz questions, and a 30-minute study plan.
 
-The project demonstrates practical troubleshooting logic, system monitoring concepts, JavaScript, automated testing, and professional documentation.
-
-## What It Shows
-
-The dashboard displays browser-safe live signals, including:
-
-- online/offline network status
-- connection type, downlink, latency, and data saver status when supported
-- browser memory and JavaScript heap estimates when supported
-- browser storage usage, quota, and persistence status
-- battery level and charging status when supported
-- logical CPU core count and approximate device memory when supported
-- local port visibility limitation
-- service worker, local storage, cookies, secure context, and privacy signals
-- platform, language, time zone, screen, viewport, pixel ratio, and color depth
-- page load timing, resource count, page visibility, and WebGL renderer
-- browser permission states for geolocation, notifications, camera, and microphone without requesting access
-
-The page includes hover/click interactions:
-
-- Hover or click metric cards to see what each check means.
-- Hover or click browser detail cards to see why each detail matters.
-- Click recommendations to expand suggested actions.
+The project is designed for a general IT/software career direction with interest in AI-assisted tools. It demonstrates JavaScript, text analysis, user interaction, automated testing, and clear documentation.
 
 ## Why I Built It
 
-After researching IT support, systems support, networking, cybersecurity, and AI-assisted technical roles, I noticed that many job descriptions mention troubleshooting, monitoring, documentation, automation, and clear communication of technical issues.
+After reviewing job descriptions related to IT, software support, and AI-assisted technical roles, two skills stood out as useful to develop:
 
-My resume already shows programming, web development, databases, Python, JavaScript, and IT coursework. This project helps demonstrate more practical IT operations experience by turning system health checks into a clear dashboard with recommendations.
+- applied AI-style workflows
+- automated testing and professional documentation
+
+This project gives me a realistic way to practice those skills. The first version runs completely in the browser and does not require an API key. It uses deterministic text-analysis logic to simulate the workflow of an AI study assistant.
+
+## Features
+
+- Paste class notes or load sample notes
+- Generate a concise summary
+- Extract important keywords
+- Create clickable flashcards
+- Create practice quiz questions
+- Build a short study plan based on the user's goal
+- Hover over keywords for extra context
+- Includes automated tests for the study-generation logic
 
 ## Technologies Used
 
@@ -62,37 +54,16 @@ http://localhost:8000
 npm test
 ```
 
-The tests validate the dashboard's health scoring and recommendation logic.
-
-## Live Check Limitations
-
-Because the project runs on GitHub Pages, it cannot directly access private operating-system data such as real CPU usage, RAM usage, full disk health, running processes, local services, or open ports. Browsers block that information for security.
-
-The live dashboard uses browser-safe signals instead:
-
-- online/offline network status
-- browser storage estimate
-- browser memory estimate when supported
-- battery level when supported
-- connection type when supported
-- page performance/resource signals
-- browser/device capability and privacy states
-
-A future advanced version could add a local Python or Node.js companion app to collect full system data with the user's permission.
-
-## GitHub Pages Setup
-
-After pushing this project to GitHub:
-
-1. Open the repository on GitHub.
-2. Go to **Settings**.
-3. Go to **Pages**.
-4. Under **Build and deployment**, choose **Deploy from a branch**.
-5. Select the `main` branch and `/root`.
-6. Save.
-
-GitHub will provide a live website link after the page finishes deploying.
+The tests validate keyword extraction, summary generation, flashcard creation, quiz generation, read-time estimation, and full study kit generation.
 
 ## Portfolio Description
 
-System Health Checker Dashboard is a small IT operations project that visualizes common system health checks and gives clear recommendations. I built it to practice troubleshooting, monitoring, automation logic, testing, and technical presentation for IT support and systems support roles.
+AI Study Tool is an applied AI-style learning assistant that transforms notes into study materials. I built it to practice AI workflow design, JavaScript, text analysis, testing, and building a polished interactive project for a portfolio.
+
+## Future Improvements
+
+- Add optional OpenAI API support for more natural summaries
+- Let users export flashcards to CSV
+- Save previous study kits in browser storage
+- Add multiple-choice quiz mode
+- Add difficulty settings

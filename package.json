@@ -1,18 +1,17 @@
 {
-  "name": "system-health-dashboard",
+  "name": "ai-study-tool",
   "version": "1.0.0",
-  "description": "A small IT portfolio project that visualizes system health checks and recommendations.",
+  "description": "A small AI-style study assistant that turns notes into summaries, flashcards, quizzes, and study plans.",
   "type": "module",
   "scripts": {
     "test": "node --test"
   },
   "keywords": [
-    "it-support",
-    "system-monitoring",
+    "study-tool",
+    "applied-ai",
     "portfolio",
     "javascript"
   ],
   "author": "Victor Gutierrez",
   "license": "MIT"
 }
-
