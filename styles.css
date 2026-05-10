@@ -106,18 +106,41 @@ h2 {
   margin-top: 6px;
 }
 
-.layout-grid {
+.page-tabs {
   display: grid;
-  grid-template-columns: 360px minmax(0, 1fr);
-  gap: var(--layout-gap);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
   margin-top: var(--layout-gap);
 }
 
-.left-column,
-.right-column {
+.tab-button {
+  padding: 12px;
+  color: var(--text-primary);
+  background: var(--neutral);
+}
+
+.tab-button.active {
+  color: var(--background);
+  background: var(--primary);
+}
+
+.page-section {
+  display: none;
+  margin-top: var(--layout-gap);
+}
+
+.page-section.active {
+  display: block;
+}
+
+.two-column {
   display: grid;
-  align-content: start;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--layout-gap);
+}
+
+.two-column.wide-left {
+  grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.6fr);
 }
 
 .section-panel,
@@ -143,6 +166,10 @@ h2 {
 
 .left-column .form-grid {
   grid-template-columns: 1fr;
+}
+
+.full-field {
+  margin-top: var(--text-block-margin);
 }
 
 label {
@@ -191,8 +218,30 @@ button {
   background: var(--neutral);
 }
 
-.study-input .form-grid {
+.primary-button {
   margin-top: var(--text-block-margin);
+  padding: 12px 16px;
+  color: var(--background);
+  background: var(--primary);
+}
+
+.choice-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.choice-grid label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: var(--card-border);
+  border-radius: var(--radius);
+  padding: 12px;
+  background: var(--neutral);
+}
+
+.choice-grid input {
+  width: auto;
 }
 
 .difficulty-grid {
@@ -241,6 +290,10 @@ button {
   grid-column: 1 / -1;
 }
 
+.result-card[hidden] {
+  display: none;
+}
+
 .keyword-list {
   display: flex;
   flex-wrap: wrap;
@@ -284,6 +337,7 @@ button {
   gap: 12px;
 }
 
+.method-card,
 .flashcard,
 .quiz-item {
   width: 100%;
@@ -293,6 +347,14 @@ button {
   color: var(--text-primary);
   background: var(--background);
   text-align: left;
+}
+
+.method-card {
+  background: var(--neutral);
+}
+
+.method-card p {
+  margin: 6px 0 0;
 }
 
 .flashcard:hover {
@@ -314,9 +376,11 @@ button {
 
 @media (max-width: 920px) {
   .topbar,
-  .layout-grid,
+  .two-column,
+  .two-column.wide-left,
   .results-grid,
-  .form-grid {
+  .form-grid,
+  .page-tabs {
     grid-template-columns: 1fr;
   }
 

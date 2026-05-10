@@ -4,6 +4,8 @@ import assert from "node:assert/strict";
 import {
   buildSummary,
   createFlashcards,
+  createLearningMethods,
+  createPracticeProblems,
   createQuiz,
   estimateReadTime,
   extractKeywords,
@@ -52,12 +54,32 @@ test("generates a complete study kit", () => {
   const kit = generateStudyKit(notes, {
     topic: "Networking",
     goal: "exam",
-    difficulty: "advanced"
+    difficulty: "advanced",
+    problems: "I do not understand DNS.",
+    style: "steps",
+    pace: "deep"
   });
 
   assert.ok(kit.summary.length > 0);
   assert.ok(kit.keywords.length > 0);
   assert.ok(kit.flashcards.length > 0);
   assert.ok(kit.quiz.length > 0);
+  assert.ok(kit.methods.length > 0);
+  assert.ok(kit.practice.length > 0);
   assert.ok(kit.plan.some((step) => step.includes("Networking")));
+});
+
+test("creates learning methods based on style", () => {
+  const methods = createLearningMethods("Algebra", "visual", "beginner");
+
+  assert.equal(methods[0].title, "Visual Map");
+  assert.ok(methods.some((method) => method.detail.includes("Algebra")));
+});
+
+test("creates practice problems from a learner concern", () => {
+  const practice = createPracticeProblems("Biology", notes, "remembering vocabulary", "beginner");
+
+  assert.ok(practice.length > 0);
+  assert.ok(practice[0].prompt.includes("remembering vocabulary"));
+  assert.ok(practice[0].hint.includes("Start by defining"));
 });

@@ -104,12 +104,12 @@ export function formatQuestion(front, index, difficulty) {
   const prompts = {
     beginner: `Question ${index + 1}: What is "${term}" in simple terms?`,
     intermediate: `Question ${index + 1}: Explain how "${term}" connects to the main topic.`,
-    advanced: `Question ${index + 1}: Apply "${term}" to a realistic developer or IT scenario.`
+    advanced: `Question ${index + 1}: Apply "${term}" to a realistic scenario.`
   };
   return prompts[difficulty] || prompts.intermediate;
 }
 
-export function buildStudyPlan(topic, goal, difficulty = "intermediate") {
+export function buildStudyPlan(topic, goal, difficulty = "intermediate", pace = "steady") {
   const goalText = {
     exam: "focus on recall and practice questions",
     review: "focus on understanding the main ideas",
@@ -122,12 +122,19 @@ export function buildStudyPlan(topic, goal, difficulty = "intermediate") {
     advanced: "Practice applying the concepts to scenarios, debugging, and design decisions."
   }[difficulty] || "Connect concepts together and practice explaining tradeoffs.";
 
+  const paceText = {
+    quick: "Use a 15-minute sprint and focus only on the highest-value ideas.",
+    steady: "Use a 30-minute session with explanation, recall, and practice.",
+    deep: "Use a 60-minute session with examples, practice, and reflection."
+  }[pace] || "Use a 30-minute session with explanation, recall, and practice.";
+
   return [
     `Spend 5 minutes skimming the summary for ${topic}.`,
     `Spend 10 minutes reviewing key terms and writing one example for each term.`,
     `Spend 10 minutes answering the practice quiz without looking at the answers.`,
     `Spend 5 minutes reviewing missed answers and deciding what to study next.`,
     `Difficulty focus: ${difficultyText}`,
+    `Pace: ${paceText}`,
     `Study goal: ${goalText}.`
   ];
 }
@@ -141,13 +148,62 @@ export function generateStudyKit(text, options = {}) {
   const topic = options.topic || "this topic";
   const goal = options.goal || "review";
   const difficulty = options.difficulty || "intermediate";
+  const pace = options.pace || "steady";
+  const problems = options.problems || "";
+  const style = options.style || "mixed";
+  const combinedText = [text, problems].filter(Boolean).join(" ");
 
   return {
-    summary: buildSummary(text),
-    keywords: extractKeywords(text),
-    flashcards: createFlashcards(text),
-    quiz: createQuiz(text, 4, difficulty),
-    plan: buildStudyPlan(topic, goal, difficulty),
-    readTimeMinutes: estimateReadTime(text)
+    summary: buildSummary(combinedText),
+    keywords: extractKeywords(combinedText),
+    flashcards: createFlashcards(combinedText),
+    quiz: createQuiz(combinedText, 4, difficulty),
+    practice: createPracticeProblems(topic, combinedText, problems, difficulty),
+    methods: createLearningMethods(topic, style, difficulty),
+    plan: buildStudyPlan(topic, goal, difficulty, pace),
+    readTimeMinutes: estimateReadTime(combinedText)
   };
+}
+
+export function createLearningMethods(topic, style = "mixed", difficulty = "intermediate") {
+  const methods = [
+    {
+      title: "Explain",
+      detail: `Read the summary, then explain ${topic} out loud in your own words.`
+    },
+    {
+      title: "Recall",
+      detail: `Cover the notes and list the key ideas you remember about ${topic}.`
+    },
+    {
+      title: "Practice",
+      detail: `Answer the quiz and practice problems, then review only the parts you missed.`
+    },
+    {
+      title: "Apply",
+      detail: `Create a real-world example that uses ${topic} at the ${difficulty} level.`
+    }
+  ];
+
+  if (style === "visual") {
+    methods.unshift({ title: "Visual Map", detail: `Draw a simple diagram showing how the main parts of ${topic} connect.` });
+  }
+
+  if (style === "steps") {
+    methods.unshift({ title: "Step-by-step", detail: `Turn ${topic} into numbered steps and define what happens at each step.` });
+  }
+
+  return methods.slice(0, 5);
+}
+
+export function createPracticeProblems(topic, text, problems = "", difficulty = "intermediate") {
+  const keywords = extractKeywords(text, 4).map((item) => item.term);
+  const focus = problems.trim() || `understanding ${topic}`;
+
+  return keywords.map((keyword, index) => ({
+    prompt: `Practice ${index + 1}: Use "${keyword}" to solve or explain a problem related to ${focus}.`,
+    hint: difficulty === "beginner"
+      ? `Start by defining "${keyword}" in one sentence.`
+      : `Connect "${keyword}" to the topic and explain why it matters.`
+  }));
 }

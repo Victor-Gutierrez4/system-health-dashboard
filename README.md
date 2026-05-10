@@ -1,6 +1,34 @@
-# DevStudy AI
+# StudyPath AI
 
-DevStudy AI is a React-based AI-style study tool for developers. Users can enter a demo login profile, describe their learning goals, choose a difficulty level, paste notes, and generate a study kit with a summary, key terms, flashcards, quiz questions, and a short study plan.
+StudyPath AI is a broad-use study assistant website. It can be used for almost any topic: technology, science, math, history, writing, certification prep, or general class notes.
+
+The site uses a multi-page flow:
+
+1. **Profile page**: demo login and user learning preferences.
+2. **Study setup page**: the user enters what they want to study, notes they already have, and problems or confusing parts.
+3. **Learning dashboard page**: the app generates multiple ways to learn the topic.
+
+## What Users Can Do
+
+- Enter a name and learning profile
+- Choose what they are interested in studying
+- Describe problems or confusing parts
+- Choose difficulty level
+- Choose preferred learning style and study pace
+- Select which learning methods they want
+- Generate a personalized learning dashboard
+
+## Learning Outputs
+
+- Simple explanation of the topic
+- Different ways to learn it
+- Key terms
+- Flashcards
+- Practice quiz
+- Practice problems
+- Personalized study plan
+
+## Design System
 
 The project follows the provided design system:
 
@@ -17,26 +45,8 @@ The project follows the provided design system:
 - `2px solid #E0E0E0` card borders
 - subtle card shadow
 
-## Why I Built It
-
-This project supports a developer and AI-focused career direction. It demonstrates React, HTML, CSS, JavaScript text analysis, user interaction, automated testing, and professional documentation.
-
-## Features
-
-- Demo login section
-- About user / learning profile section
-- Difficulty selector
-- Developer learning path section
-- Notes input area
-- Summary generator
-- Keyword extraction
-- Clickable flashcards
-- Quiz questions with revealable answers
-- Study plan generation
-
 ## Technologies Used
 
-- React
 - HTML
 - CSS
 - JavaScript
@@ -63,4 +73,8 @@ http://localhost:8000
 npm test
 ```
 
-The tests validate keyword extraction, summary generation, flashcard creation, quiz generation, difficulty-based questions, read-time estimation, and full study kit generation.
+The tests validate keyword extraction, summary generation, flashcard creation, quiz generation, difficulty-based questions, learning methods, practice problems, read-time estimation, and full study kit generation.
+
+## Portfolio Description
+
+StudyPath AI is an AI-style learning assistant that turns any study topic into multiple learning paths. I built it to demonstrate applied AI workflow design, interactive frontend development, JavaScript text analysis, automated testing, and professional documentation.

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>DevStudy AI</title>
+    <title>StudyPath AI</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
@@ -14,37 +14,43 @@
       <header class="topbar">
         <div>
           <p class="eyebrow">Applied AI Portfolio Project</p>
-          <h1>DevStudy AI</h1>
+          <h1>StudyPath AI</h1>
           <p class="intro">
-            A study assistant for developers that turns notes into summaries,
-            flashcards, quizzes, and focused study plans.
+            A broad study assistant that adapts to any subject, asks what the learner
+            wants to understand, and creates different ways to learn the topic.
           </p>
         </div>
         <div class="status-card">
-          <span>Signed in as</span>
-          <strong id="signedInName">Victor Gutierrez</strong>
+          <span>Current learner</span>
+          <strong id="signedInName">Guest Learner</strong>
         </div>
       </header>
 
-      <div class="layout-grid">
-        <div class="left-column">
-          <section class="section-panel login-section">
+      <nav class="page-tabs" aria-label="Study tool pages">
+        <button class="tab-button active" data-page="profilePage" type="button">1. Profile</button>
+        <button class="tab-button" data-page="setupPage" type="button">2. Study Setup</button>
+        <button class="tab-button" data-page="dashboardPage" type="button">3. Learning Dashboard</button>
+      </nav>
+
+      <section class="page-section active" id="profilePage">
+        <div class="two-column">
+          <section class="section-panel">
             <div class="section-heading">
               <h2>Login</h2>
-              <span>Demo profile</span>
+              <span>Demo access</span>
             </div>
             <div class="form-grid">
               <label>
                 Name
-                <input id="nameInput" value="Victor Gutierrez" placeholder="Developer name">
+                <input id="nameInput" value="Victor Gutierrez" placeholder="Your name">
               </label>
               <label>
                 Email
-                <input id="emailInput" value="student@example.com" placeholder="developer@example.com">
+                <input id="emailInput" value="student@example.com" placeholder="you@example.com">
               </label>
             </div>
             <p class="helper-text">
-              This front-end demo personalizes the study kit. It does not store passwords or send data to a server.
+              This is a front-end demo login for personalization. It does not store passwords or send data to a server.
             </p>
           </section>
 
@@ -55,113 +61,154 @@
             </div>
             <div class="form-grid">
               <label>
-                Role Goal
-                <input id="roleInput" value="Developer" placeholder="Front-end developer">
+                Main Interest
+                <input id="interestInput" value="Technology and cybersecurity" placeholder="Anything you want to study">
               </label>
               <label>
-                Current Focus
-                <input id="focusInput" value="React, AI tools, and technical studying" placeholder="React, APIs, testing">
+                Career or Class Goal
+                <input id="goalRoleInput" value="Build stronger technical skills" placeholder="Pass a class, change careers, learn a skill">
+              </label>
+              <label>
+                Preferred Learning Style
+                <select id="styleInput">
+                  <option value="visual">Visual examples</option>
+                  <option value="steps">Step-by-step</option>
+                  <option value="practice">Practice problems</option>
+                  <option value="mixed">Mixed methods</option>
+                </select>
+              </label>
+              <label>
+                Study Pace
+                <select id="paceInput">
+                  <option value="quick">Quick review</option>
+                  <option value="steady" selected>Steady learning</option>
+                  <option value="deep">Deep dive</option>
+                </select>
               </label>
             </div>
+            <button class="primary-button page-next" data-page="setupPage" type="button">Continue to Study Setup</button>
+          </section>
+        </div>
+      </section>
+
+      <section class="page-section" id="setupPage">
+        <div class="two-column wide-left">
+          <section class="section-panel">
+            <div class="section-heading">
+              <h2>What Do You Want To Learn?</h2>
+              <button class="ghost-button" id="sampleButton" type="button">Load Sample</button>
+            </div>
+            <div class="form-grid">
+              <label>
+                Topic
+                <input id="topicInput" value="Networking basics" placeholder="Biology, algebra, React, history, networking...">
+              </label>
+              <label>
+                Difficulty
+                <select id="difficultyInput">
+                  <option value="beginner">Beginner</option>
+                  <option value="intermediate" selected>Intermediate</option>
+                  <option value="advanced">Advanced</option>
+                </select>
+              </label>
+            </div>
+            <label class="full-field">
+              Notes or Information You Already Have
+              <textarea id="notesInput" placeholder="Paste notes, textbook material, a concept description, or anything you already know..."></textarea>
+            </label>
+            <label class="full-field">
+              Problems, Questions, or Confusing Parts
+              <textarea id="problemsInput" placeholder="Example: I do not understand subnetting, solving equations, writing thesis statements, or remembering vocabulary."></textarea>
+            </label>
           </section>
 
           <section class="section-panel">
             <div class="section-heading">
-              <h2>Difficulty</h2>
-              <span>Controls quiz style</span>
+              <h2>AI Teaching Preferences</h2>
+              <span>Personalizes output</span>
             </div>
-            <div class="difficulty-grid" id="difficultyOptions">
-              <button class="difficulty-option" data-level="beginner" type="button">
-                <strong>Beginner</strong>
-                <span>Definitions and simple examples</span>
-              </button>
-              <button class="difficulty-option active" data-level="intermediate" type="button">
-                <strong>Intermediate</strong>
-                <span>Connections and explanations</span>
-              </button>
-              <button class="difficulty-option" data-level="advanced" type="button">
-                <strong>Advanced</strong>
-                <span>Scenarios and application</span>
-              </button>
+            <div class="choice-grid">
+              <label><input type="checkbox" class="methodInput" value="summary" checked> Summary</label>
+              <label><input type="checkbox" class="methodInput" value="flashcards" checked> Flashcards</label>
+              <label><input type="checkbox" class="methodInput" value="quiz" checked> Quiz</label>
+              <label><input type="checkbox" class="methodInput" value="examples" checked> Examples</label>
+              <label><input type="checkbox" class="methodInput" value="plan" checked> Study plan</label>
+              <label><input type="checkbox" class="methodInput" value="practice" checked> Practice problems</label>
             </div>
-          </section>
-
-          <section class="section-panel path-panel">
-            <div class="section-heading">
-              <h2>Learning Path</h2>
-              <span>Extra fit</span>
-            </div>
-            <ol class="path-list" id="learningPath"></ol>
+            <button class="primary-button page-next" data-page="dashboardPage" type="button">Generate Learning Dashboard</button>
           </section>
         </div>
+      </section>
 
-        <div class="right-column">
-          <section class="section-panel study-input">
+      <section class="page-section" id="dashboardPage">
+        <section class="section-panel">
+          <div class="section-heading">
+            <h2>Personalized Learning Dashboard</h2>
+            <span id="readTime">1 min read</span>
+          </div>
+          <p id="personalizedIntro"></p>
+        </section>
+
+        <section class="results-grid" id="resultsGrid">
+          <article class="result-card wide" data-method="summary">
             <div class="section-heading">
-              <h2>Study Notes</h2>
-              <button class="ghost-button" id="sampleButton" type="button">Load Sample</button>
+              <h2>Teach Me The Topic</h2>
+              <span>Simple explanation</span>
             </div>
-            <textarea id="notesInput" placeholder="Paste developer notes, documentation, class notes, or study material here..."></textarea>
-            <div class="form-grid">
-              <label>
-                Topic
-                <input id="topicInput" value="React Developer Fundamentals">
-              </label>
-              <label>
-                Goal
-                <select id="goalInput">
-                  <option value="exam">Prepare for an exam</option>
-                  <option value="review">Review key concepts</option>
-                  <option value="presentation">Prepare to explain it</option>
-                </select>
-              </label>
+            <p id="summaryOutput"></p>
+          </article>
+
+          <article class="result-card" data-method="examples">
+            <div class="section-heading">
+              <h2>Ways To Learn It</h2>
+              <span>Choose a path</span>
             </div>
-          </section>
+            <div class="stack" id="methodsOutput"></div>
+          </article>
 
-          <section class="results-grid">
-            <article class="result-card wide">
-              <div class="section-heading">
-                <h2>Summary</h2>
-                <span id="readTime">1 min read</span>
-              </div>
-              <p id="summaryOutput"></p>
-            </article>
+          <article class="result-card" data-method="summary">
+            <div class="section-heading">
+              <h2>Key Terms</h2>
+              <span>Hover</span>
+            </div>
+            <div class="keyword-list" id="keywordsOutput"></div>
+          </article>
 
-            <article class="result-card">
-              <div class="section-heading">
-                <h2>Key Terms</h2>
-                <span>Hover</span>
-              </div>
-              <div class="keyword-list" id="keywordsOutput"></div>
-            </article>
+          <article class="result-card" data-method="flashcards">
+            <div class="section-heading">
+              <h2>Flashcards</h2>
+              <span>Click to flip</span>
+            </div>
+            <div class="stack" id="flashcardsOutput"></div>
+          </article>
 
-            <article class="result-card">
-              <div class="section-heading">
-                <h2>Flashcards</h2>
-                <span>Click to flip</span>
-              </div>
-              <div class="stack" id="flashcardsOutput"></div>
-            </article>
+          <article class="result-card" data-method="quiz">
+            <div class="section-heading">
+              <h2>Practice Quiz</h2>
+              <span>Reveal answers</span>
+            </div>
+            <div class="stack" id="quizOutput"></div>
+          </article>
 
-            <article class="result-card">
-              <div class="section-heading">
-                <h2>Practice Quiz</h2>
-                <span>Reveal answers</span>
-              </div>
-              <div class="stack" id="quizOutput"></div>
-            </article>
+          <article class="result-card" data-method="practice">
+            <div class="section-heading">
+              <h2>Practice Problems</h2>
+              <span>Try it</span>
+            </div>
+            <div class="stack" id="practiceOutput"></div>
+          </article>
 
-            <article class="result-card">
-              <div class="section-heading">
-                <h2>Study Plan</h2>
-                <span>30 minutes</span>
-              </div>
-              <ol class="path-list" id="planOutput"></ol>
-            </article>
-          </section>
-        </div>
-      </div>
+          <article class="result-card wide" data-method="plan">
+            <div class="section-heading">
+              <h2>Study Plan</h2>
+              <span>Personalized</span>
+            </div>
+            <ol class="path-list" id="planOutput"></ol>
+          </article>
+        </section>
+      </section>
     </main>
+
     <script type="module" src="src/app.js"></script>
   </body>
 </html>
