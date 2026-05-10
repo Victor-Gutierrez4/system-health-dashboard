@@ -18,6 +18,12 @@ The dashboard displays:
 - common local port checks
 - basic security recommendations
 
+The page includes hover/click interactions:
+
+- Hover over metric cards to see what each check means.
+- Click recommendations to expand suggested actions.
+- Switch between sample scans and live browser-safe checks.
+
 ## Why I Built It
 
 After researching IT support, systems support, networking, cybersecurity, and AI-assisted technical roles, I noticed that many job descriptions mention troubleshooting, monitoring, documentation, automation, and clear communication of technical issues.
@@ -56,6 +62,21 @@ npm test
 
 The tests validate the dashboard's health scoring and recommendation logic.
 
+## Live Check Limitations
+
+Because the project runs on GitHub Pages, it cannot directly access private operating-system data such as real CPU usage, RAM usage, full disk health, running processes, local services, or open ports. Browsers block that information for security.
+
+The **Live Browser Check** mode uses browser-safe signals instead:
+
+- online/offline network status
+- browser storage estimate
+- browser memory estimate when supported
+- battery level when supported
+- connection type when supported
+- page performance/resource signals
+
+A future advanced version could add a local Python or Node.js companion app to collect full system data with the user's permission.
+
 ## GitHub Pages Setup
 
 After pushing this project to GitHub:
@@ -72,4 +93,3 @@ GitHub will provide a live website link after the page finishes deploying.
 ## Portfolio Description
 
 System Health Checker Dashboard is a small IT operations project that visualizes common system health checks and gives clear recommendations. I built it to practice troubleshooting, monitoring, automation logic, testing, and technical presentation for IT support and systems support roles.
-

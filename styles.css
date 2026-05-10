@@ -108,6 +108,34 @@ p {
   padding: 24px;
 }
 
+.actions {
+  display: grid;
+  gap: 10px;
+  min-width: 290px;
+}
+
+.segmented-control {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.mode-button {
+  border: 0;
+  padding: 10px;
+  color: var(--muted);
+  background: #f8fafc;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.mode-button.active {
+  color: #ffffff;
+  background: var(--text);
+}
+
 .primary-action {
   border: 0;
   border-radius: 8px;
@@ -126,7 +154,16 @@ p {
 }
 
 .metric-card {
+  position: relative;
   padding: 18px;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.metric-card:hover,
+.metric-card:focus {
+  transform: translateY(-3px);
+  outline: none;
+  box-shadow: 0 22px 50px rgba(22, 32, 47, 0.16);
 }
 
 .metric-label {
@@ -144,6 +181,32 @@ p {
 
 .metric-card small {
   font-weight: 700;
+}
+
+.metric-popover {
+  position: absolute;
+  right: 14px;
+  bottom: calc(100% - 8px);
+  z-index: 5;
+  width: min(260px, 80vw);
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--text);
+  background: #ffffff;
+  box-shadow: var(--shadow);
+  font-size: 0.86rem;
+  line-height: 1.45;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.metric-card:hover .metric-popover,
+.metric-card:focus .metric-popover {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .metric-card.ok {
@@ -207,10 +270,47 @@ p {
 }
 
 .recommendations {
+  display: grid;
+  gap: 10px;
   margin: 0;
-  padding-left: 20px;
+  padding: 0;
   color: var(--text);
   line-height: 1.6;
+  list-style: none;
+}
+
+.recommendation-button {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  color: var(--text);
+  background: #ffffff;
+  text-align: left;
+  cursor: pointer;
+}
+
+.recommendation-button strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.recommendation-detail {
+  display: none;
+  margin-top: 8px;
+  color: var(--muted);
+}
+
+.recommendation-button.open .recommendation-detail {
+  display: block;
+}
+
+.notice {
+  display: flex;
+  gap: 8px;
+  margin-top: 18px;
+  color: var(--muted);
+  box-shadow: none;
 }
 
 .bar-chart {
@@ -246,8 +346,8 @@ p {
   }
 
   .status-badge,
-  .primary-action {
+  .primary-action,
+  .actions {
     width: 100%;
   }
 }
-

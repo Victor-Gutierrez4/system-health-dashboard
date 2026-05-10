@@ -39,9 +39,9 @@ test("builds practical IT recommendations", () => {
     openPorts: [23]
   });
 
-  assert.ok(recommendations.some((item) => item.includes("CPU")));
-  assert.ok(recommendations.some((item) => item.includes("gateway")));
-  assert.ok(recommendations.some((item) => item.includes("Telnet")));
+  assert.ok(recommendations.some((item) => item.title.includes("CPU")));
+  assert.ok(recommendations.some((item) => item.detail.includes("gateway")));
+  assert.ok(recommendations.some((item) => item.title.includes("Telnet")));
 });
 
 test("analyzes a full system scan", () => {
@@ -60,4 +60,3 @@ test("analyzes a full system scan", () => {
   assert.equal(report.overall, "Needs Attention");
   assert.ok(report.recommendations.length > 0);
 });
-

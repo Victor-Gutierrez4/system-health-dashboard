@@ -24,29 +24,39 @@
             and communicating clear next steps for IT support.
           </p>
         </div>
-        <button class="primary-action" id="refreshButton" type="button">Run Scan</button>
+        <div class="actions">
+          <div class="segmented-control" aria-label="Scan mode">
+            <button class="mode-button active" id="sampleMode" type="button">Sample Scan</button>
+            <button class="mode-button" id="liveMode" type="button">Live Browser Check</button>
+          </div>
+          <button class="primary-action" id="refreshButton" type="button">Run Scan</button>
+        </div>
       </section>
 
       <section class="metrics-grid" aria-label="System health metrics">
-        <article class="metric-card" id="cpuCard">
+        <article class="metric-card" id="cpuCard" tabindex="0" data-info="CPU usage helps identify whether applications or background processes are slowing the computer down.">
           <span class="metric-label">CPU Usage</span>
           <strong id="cpuValue">--</strong>
           <small id="cpuStatus">Waiting</small>
+          <div class="metric-popover" id="cpuInfo"></div>
         </article>
-        <article class="metric-card" id="memoryCard">
+        <article class="metric-card" id="memoryCard" tabindex="0" data-info="Memory usage shows whether the system may need unused apps closed or startup programs reviewed.">
           <span class="metric-label">Memory Usage</span>
           <strong id="memoryValue">--</strong>
           <small id="memoryStatus">Waiting</small>
+          <div class="metric-popover" id="memoryInfo"></div>
         </article>
-        <article class="metric-card" id="diskCard">
+        <article class="metric-card" id="diskCard" tabindex="0" data-info="Disk usage helps determine whether storage cleanup, temp file removal, or file archiving is needed.">
           <span class="metric-label">Disk Usage</span>
           <strong id="diskValue">--</strong>
           <small id="diskStatus">Waiting</small>
+          <div class="metric-popover" id="diskInfo"></div>
         </article>
-        <article class="metric-card" id="networkCard">
+        <article class="metric-card" id="networkCard" tabindex="0" data-info="Network status is one of the first checks for troubleshooting web, email, DNS, and cloud service issues.">
           <span class="metric-label">Network</span>
           <strong id="networkValue">--</strong>
           <small id="networkStatus">Waiting</small>
+          <div class="metric-popover" id="networkInfo"></div>
         </article>
       </section>
 
@@ -61,6 +71,8 @@
             <div><span>Running Processes</span><strong id="processValue">--</strong></div>
             <div><span>Battery</span><strong id="batteryValue">--</strong></div>
             <div><span>Common Ports</span><strong id="portsValue">--</strong></div>
+            <div><span>Browser Storage</span><strong id="storageValue">--</strong></div>
+            <div><span>Connection Type</span><strong id="connectionValue">--</strong></div>
           </div>
         </article>
 
@@ -71,6 +83,14 @@
           </div>
           <ul class="recommendations" id="recommendations"></ul>
         </article>
+      </section>
+
+      <section class="panel notice">
+        <strong>Live check note:</strong>
+        <span>
+          GitHub Pages can run browser-safe checks only. Real CPU, process, port, and full disk checks
+          would require a local desktop script or backend agent with system permission.
+        </span>
       </section>
 
       <section class="panel">
@@ -85,4 +105,3 @@
     <script type="module" src="src/app.js"></script>
   </body>
 </html>
-

@@ -34,39 +34,66 @@ export function buildRecommendations(data) {
   const recommendations = [];
 
   if (data.cpuUsage >= 85) {
-    recommendations.push("Check Task Manager for high CPU processes and restart unnecessary applications.");
+    recommendations.push({
+      title: "Review high CPU usage",
+      detail: "Check Task Manager for high CPU processes and restart unnecessary applications."
+    });
   }
 
   if (data.memoryUsage >= 80) {
-    recommendations.push("Close unused applications or review startup programs to reduce memory usage.");
+    recommendations.push({
+      title: "Reduce memory pressure",
+      detail: "Close unused applications or review startup programs to reduce memory usage."
+    });
   }
 
   if (data.diskUsage >= 85) {
-    recommendations.push("Free disk space by removing temporary files or moving large files to storage.");
+    recommendations.push({
+      title: "Free disk space",
+      detail: "Remove temporary files, uninstall unused applications, or move large files to storage."
+    });
   }
 
   if (!data.networkConnected) {
-    recommendations.push("Verify Wi-Fi or Ethernet connection, then test gateway and DNS connectivity.");
+    recommendations.push({
+      title: "Troubleshoot network connection",
+      detail: "Verify Wi-Fi or Ethernet connection, then test gateway and DNS connectivity."
+    });
   }
 
   if (data.uptimeHours >= 168) {
-    recommendations.push("Restart the system to apply updates and clear long-running background issues.");
+    recommendations.push({
+      title: "Restart and update",
+      detail: "Restart the system to apply updates and clear long-running background issues."
+    });
   }
 
   if (data.processCount >= 180) {
-    recommendations.push("Review background processes to identify unnecessary services or startup apps.");
+    recommendations.push({
+      title: "Review background load",
+      detail: "Review background processes to identify unnecessary services or startup apps."
+    });
   }
 
   if (data.openPorts.includes(23)) {
-    recommendations.push("Disable Telnet and use SSH or a secure management method instead.");
+    recommendations.push({
+      title: "Disable Telnet",
+      detail: "Disable Telnet and use SSH or a secure management method instead."
+    });
   }
 
   if (data.openPorts.includes(3389)) {
-    recommendations.push("Review Remote Desktop exposure and confirm firewall rules are appropriate.");
+    recommendations.push({
+      title: "Review Remote Desktop exposure",
+      detail: "Confirm Remote Desktop is required and protected by appropriate firewall rules."
+    });
   }
 
   if (recommendations.length === 0) {
-    recommendations.push("No major issues detected. Continue routine updates, backups, and security checks.");
+    recommendations.push({
+      title: "No major issues detected",
+      detail: "Continue routine updates, backups, and security checks."
+    });
   }
 
   return recommendations;
@@ -90,4 +117,3 @@ export function analyzeSystemHealth(data) {
     recommendations: buildRecommendations(data)
   };
 }
-
