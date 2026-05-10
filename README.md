@@ -21,6 +21,7 @@ The dashboard displays:
 The page includes hover/click interactions:
 
 - Hover over metric cards to see what each check means.
+- Click **More info** on a metric card to keep the explanation open.
 - Click recommendations to expand suggested actions.
 - Switch between sample scans and live browser-safe checks.
 

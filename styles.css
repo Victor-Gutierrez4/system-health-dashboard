@@ -183,12 +183,27 @@ p {
   font-weight: 700;
 }
 
+.info-toggle {
+  display: inline-flex;
+  margin-top: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px 10px;
+  color: var(--blue);
+  background: #f8fbff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.info-toggle:hover {
+  border-color: var(--blue);
+}
+
 .metric-popover {
-  position: absolute;
-  right: 14px;
-  bottom: calc(100% - 8px);
+  position: static;
   z-index: 5;
-  width: min(260px, 80vw);
+  width: 100%;
+  margin-top: 12px;
   padding: 12px;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -197,16 +212,13 @@ p {
   box-shadow: var(--shadow);
   font-size: 0.86rem;
   line-height: 1.45;
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(8px);
-  transition: opacity 160ms ease, transform 160ms ease;
+  display: none;
 }
 
 .metric-card:hover .metric-popover,
-.metric-card:focus .metric-popover {
-  opacity: 1;
-  transform: translateY(0);
+.metric-card:focus .metric-popover,
+.metric-card.info-open .metric-popover {
+  display: block;
 }
 
 .metric-card.ok {
