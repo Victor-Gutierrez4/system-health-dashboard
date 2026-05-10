@@ -106,24 +106,6 @@ h2 {
   margin-top: 6px;
 }
 
-.page-tabs {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-  margin-top: var(--layout-gap);
-}
-
-.tab-button {
-  padding: 12px;
-  color: var(--text-primary);
-  background: var(--neutral);
-}
-
-.tab-button.active {
-  color: var(--background);
-  background: var(--primary);
-}
-
 .page-section {
   display: none;
   margin-top: var(--layout-gap);
@@ -131,6 +113,24 @@ h2 {
 
 .page-section.active {
   display: block;
+}
+
+.startup-screen {
+  min-height: calc(100vh - 64px);
+  place-items: center;
+}
+
+.startup-screen.active {
+  display: grid;
+}
+
+.login-card {
+  width: min(520px, 100%);
+  border: var(--card-border);
+  border-radius: var(--radius);
+  padding: calc(var(--base-padding) * 1.5);
+  background: var(--background);
+  box-shadow: var(--card-shadow);
 }
 
 .two-column {
@@ -170,6 +170,10 @@ h2 {
 
 .full-field {
   margin-top: var(--text-block-margin);
+}
+
+.form-grid.single {
+  grid-template-columns: 1fr;
 }
 
 label {
@@ -225,8 +229,29 @@ button {
   background: var(--primary);
 }
 
+.full-button {
+  width: 100%;
+}
+
+.button-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: var(--text-block-margin);
+}
+
+.button-row .primary-button,
+.button-row .ghost-button {
+  margin-top: 0;
+}
+
+.bottom-row {
+  margin-bottom: var(--layout-gap);
+}
+
 .choice-grid {
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
 }
 
@@ -242,6 +267,10 @@ button {
 
 .choice-grid input {
   width: auto;
+}
+
+.spaced-heading {
+  margin-top: var(--layout-gap);
 }
 
 .difficulty-grid {
@@ -380,11 +409,15 @@ button {
   .two-column.wide-left,
   .results-grid,
   .form-grid,
-  .page-tabs {
+  .choice-grid {
     grid-template-columns: 1fr;
   }
 
   .topbar {
     display: grid;
+  }
+
+  .button-row {
+    flex-direction: column;
   }
 }

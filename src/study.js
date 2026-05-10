@@ -160,6 +160,10 @@ export function generateStudyKit(text, options = {}) {
     quiz: createQuiz(combinedText, 4, difficulty),
     practice: createPracticeProblems(topic, combinedText, problems, difficulty),
     methods: createLearningMethods(topic, style, difficulty),
+    discussion: createDiscussionPrompts(topic, combinedText, problems),
+    videoOutline: createVideoOutline(topic, difficulty),
+    textbookGuide: createTextbookGuide(topic, combinedText),
+    powerpointOutline: createPowerPointOutline(topic, combinedText),
     plan: buildStudyPlan(topic, goal, difficulty, pace),
     readTimeMinutes: estimateReadTime(combinedText)
   };
@@ -206,4 +210,50 @@ export function createPracticeProblems(topic, text, problems = "", difficulty = 
       ? `Start by defining "${keyword}" in one sentence.`
       : `Connect "${keyword}" to the topic and explain why it matters.`
   }));
+}
+
+export function createDiscussionPrompts(topic, text, problems = "") {
+  const keywords = extractKeywords(text, 3).map((item) => item.term);
+  const focus = problems.trim() || `the hardest part of ${topic}`;
+
+  return [
+    { title: "Explain it simply", detail: `How would you explain ${topic} to someone who has never studied it before?` },
+    { title: "Find the confusion", detail: `What part of ${focus} feels unclear, and what example would make it easier?` },
+    { title: "Use key terms", detail: `Use these terms in a short explanation: ${keywords.join(", ") || topic}.` }
+  ];
+}
+
+export function createVideoOutline(topic, difficulty = "intermediate") {
+  return [
+    `Opening hook: why ${topic} matters.`,
+    `Define the main idea at a ${difficulty} level.`,
+    `Walk through one clear example step by step.`,
+    "Pause for a quick check-for-understanding question.",
+    "End with the top mistakes to avoid and what to review next."
+  ];
+}
+
+export function createTextbookGuide(topic, text) {
+  const keywords = extractKeywords(text, 4).map((item) => item.term);
+
+  return [
+    `Before reading: write what you already know about ${topic}.`,
+    `During reading: highlight definitions for ${keywords.join(", ") || "the main terms"}.`,
+    "After each paragraph: write one sentence that captures the main idea.",
+    "After reading: create two questions you still need answered.",
+    `Final check: explain how the key terms connect to ${topic}.`
+  ];
+}
+
+export function createPowerPointOutline(topic, text) {
+  const keywords = extractKeywords(text, 4).map((item) => item.term);
+
+  return [
+    `Slide 1: ${topic} overview`,
+    `Slide 2: Why ${topic} matters`,
+    `Slide 3: Key terms - ${keywords.join(", ") || "main vocabulary"}`,
+    "Slide 4: Step-by-step explanation or example",
+    "Slide 5: Common mistakes or confusing parts",
+    "Slide 6: Practice question and answer"
+  ];
 }

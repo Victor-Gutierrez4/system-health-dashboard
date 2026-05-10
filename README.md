@@ -4,14 +4,17 @@ StudyPath AI is a broad-use study assistant website. It can be used for almost a
 
 The site uses a multi-page flow:
 
-1. **Profile page**: demo login and user learning preferences.
-2. **Study setup page**: the user enters what they want to study, notes they already have, and problems or confusing parts.
-3. **Learning dashboard page**: the app generates multiple ways to learn the topic.
+1. **Login page**: asks only for name and email.
+2. **Topic page**: the user chooses a broad subject from a dropdown, then specifies the exact topic, notes, and problems.
+3. **Study style page**: the user chooses difficulty, pace, and preferred study formats.
+4. **Study guide page**: the app generates multiple ways to learn the topic.
 
 ## What Users Can Do
 
 - Enter a name and learning profile
 - Choose what they are interested in studying
+- Choose a broad subject from a dropdown
+- Specify the exact topic they want to learn
 - Describe problems or confusing parts
 - Choose difficulty level
 - Choose preferred learning style and study pace
@@ -25,6 +28,10 @@ The site uses a multi-page flow:
 - Key terms
 - Flashcards
 - Practice quiz
+- Discussion prompts
+- Video lesson outline
+- Textbook reading guide
+- PowerPoint outline
 - Practice problems
 - Personalized study plan
 

@@ -11,162 +11,193 @@
   </head>
   <body>
     <main class="app-shell">
-      <header class="topbar">
-        <div>
-          <p class="eyebrow">Applied AI Portfolio Project</p>
-          <h1>StudyPath AI</h1>
-          <p class="intro">
-            A broad study assistant that adapts to any subject, asks what the learner
-            wants to understand, and creates different ways to learn the topic.
-          </p>
-        </div>
-        <div class="status-card">
-          <span>Current learner</span>
-          <strong id="signedInName">Guest Learner</strong>
-        </div>
-      </header>
-
-      <nav class="page-tabs" aria-label="Study tool pages">
-        <button class="tab-button active" data-page="profilePage" type="button">1. Profile</button>
-        <button class="tab-button" data-page="setupPage" type="button">2. Study Setup</button>
-        <button class="tab-button" data-page="dashboardPage" type="button">3. Learning Dashboard</button>
-      </nav>
-
-      <section class="page-section active" id="profilePage">
-        <div class="two-column">
-          <section class="section-panel">
-            <div class="section-heading">
-              <h2>Login</h2>
-              <span>Demo access</span>
-            </div>
-            <div class="form-grid">
-              <label>
-                Name
-                <input id="nameInput" value="Victor Gutierrez" placeholder="Your name">
-              </label>
-              <label>
-                Email
-                <input id="emailInput" value="student@example.com" placeholder="you@example.com">
-              </label>
-            </div>
-            <p class="helper-text">
-              This is a front-end demo login for personalization. It does not store passwords or send data to a server.
-            </p>
-          </section>
-
-          <section class="section-panel">
-            <div class="section-heading">
-              <h2>About User</h2>
-              <span>Learning profile</span>
-            </div>
-            <div class="form-grid">
-              <label>
-                Main Interest
-                <input id="interestInput" value="Technology and cybersecurity" placeholder="Anything you want to study">
-              </label>
-              <label>
-                Career or Class Goal
-                <input id="goalRoleInput" value="Build stronger technical skills" placeholder="Pass a class, change careers, learn a skill">
-              </label>
-              <label>
-                Preferred Learning Style
-                <select id="styleInput">
-                  <option value="visual">Visual examples</option>
-                  <option value="steps">Step-by-step</option>
-                  <option value="practice">Practice problems</option>
-                  <option value="mixed">Mixed methods</option>
-                </select>
-              </label>
-              <label>
-                Study Pace
-                <select id="paceInput">
-                  <option value="quick">Quick review</option>
-                  <option value="steady" selected>Steady learning</option>
-                  <option value="deep">Deep dive</option>
-                </select>
-              </label>
-            </div>
-            <button class="primary-button page-next" data-page="setupPage" type="button">Continue to Study Setup</button>
-          </section>
-        </div>
-      </section>
-
-      <section class="page-section" id="setupPage">
-        <div class="two-column wide-left">
-          <section class="section-panel">
-            <div class="section-heading">
-              <h2>What Do You Want To Learn?</h2>
-              <button class="ghost-button" id="sampleButton" type="button">Load Sample</button>
-            </div>
-            <div class="form-grid">
-              <label>
-                Topic
-                <input id="topicInput" value="Networking basics" placeholder="Biology, algebra, React, history, networking...">
-              </label>
-              <label>
-                Difficulty
-                <select id="difficultyInput">
-                  <option value="beginner">Beginner</option>
-                  <option value="intermediate" selected>Intermediate</option>
-                  <option value="advanced">Advanced</option>
-                </select>
-              </label>
-            </div>
-            <label class="full-field">
-              Notes or Information You Already Have
-              <textarea id="notesInput" placeholder="Paste notes, textbook material, a concept description, or anything you already know..."></textarea>
+      <section class="page-section active startup-screen" id="loginPage">
+        <div class="login-card">
+          <p class="eyebrow">StudyPath AI</p>
+          <h1>Welcome Back</h1>
+          <p class="intro">Log in to create a personalized study path for any topic.</p>
+          <div class="form-grid single">
+            <label>
+              Name
+              <input id="nameInput" value="Victor Gutierrez" placeholder="Your name">
             </label>
-            <label class="full-field">
-              Problems, Questions, or Confusing Parts
-              <textarea id="problemsInput" placeholder="Example: I do not understand subnetting, solving equations, writing thesis statements, or remembering vocabulary."></textarea>
+            <label>
+              Email
+              <input id="emailInput" value="student@example.com" placeholder="you@example.com">
             </label>
-          </section>
-
-          <section class="section-panel">
-            <div class="section-heading">
-              <h2>AI Teaching Preferences</h2>
-              <span>Personalizes output</span>
-            </div>
-            <div class="choice-grid">
-              <label><input type="checkbox" class="methodInput" value="summary" checked> Summary</label>
-              <label><input type="checkbox" class="methodInput" value="flashcards" checked> Flashcards</label>
-              <label><input type="checkbox" class="methodInput" value="quiz" checked> Quiz</label>
-              <label><input type="checkbox" class="methodInput" value="examples" checked> Examples</label>
-              <label><input type="checkbox" class="methodInput" value="plan" checked> Study plan</label>
-              <label><input type="checkbox" class="methodInput" value="practice" checked> Practice problems</label>
-            </div>
-            <button class="primary-button page-next" data-page="dashboardPage" type="button">Generate Learning Dashboard</button>
-          </section>
-        </div>
-      </section>
-
-      <section class="page-section" id="dashboardPage">
-        <section class="section-panel">
-          <div class="section-heading">
-            <h2>Personalized Learning Dashboard</h2>
-            <span id="readTime">1 min read</span>
           </div>
-          <p id="personalizedIntro"></p>
+          <button class="primary-button page-next full-button" data-page="topicPage" type="button">Next</button>
+        </div>
+      </section>
+
+      <section class="page-section" id="topicPage">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Step 2</p>
+            <h1>Choose Your Topic</h1>
+            <p class="intro">Pick a broad subject, then describe exactly what you want to learn.</p>
+          </div>
+          <div class="status-card">
+            <span>Current learner</span>
+            <strong id="signedInName">Guest Learner</strong>
+          </div>
+        </header>
+
+        <section class="section-panel page-card">
+          <div class="section-heading">
+            <h2>What Do You Want To Study?</h2>
+            <button class="ghost-button" id="sampleButton" type="button">Load Sample</button>
+          </div>
+          <div class="form-grid">
+            <label>
+              Subject Area
+              <select id="subjectInput">
+                <option value="Technology">Technology</option>
+                <option value="Cybersecurity">Cybersecurity</option>
+                <option value="Networking">Networking</option>
+                <option value="Programming">Programming</option>
+                <option value="Mathematics">Mathematics</option>
+                <option value="Science">Science</option>
+                <option value="History">History</option>
+                <option value="English and Writing">English and Writing</option>
+                <option value="Business">Business</option>
+                <option value="Health">Health</option>
+                <option value="Language Learning">Language Learning</option>
+                <option value="Test Preparation">Test Preparation</option>
+                <option value="Other">Other</option>
+              </select>
+            </label>
+            <label>
+              Specific Topic
+              <input id="topicInput" value="Networking basics" placeholder="Example: subnetting, photosynthesis, algebra, essays">
+            </label>
+          </div>
+          <label class="full-field">
+            What do you already know or have?
+            <textarea id="notesInput" placeholder="Paste notes, textbook material, assignment details, or what you already understand..."></textarea>
+          </label>
+          <label class="full-field">
+            What problems or questions do you have?
+            <textarea id="problemsInput" placeholder="Example: I do not understand subnet masks, thesis statements, factoring equations, or remembering vocabulary."></textarea>
+          </label>
+          <div class="button-row">
+            <button class="ghost-button page-next" data-page="loginPage" type="button">Back</button>
+            <button class="primary-button page-next" data-page="stylePage" type="button">Next</button>
+          </div>
         </section>
+      </section>
+
+      <section class="page-section" id="stylePage">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Step 3</p>
+            <h1>How Do You Like To Study?</h1>
+            <p class="intro">Choose the style and resources that help you learn best.</p>
+          </div>
+          <div class="status-card">
+            <span>Study mode</span>
+            <strong id="styleSummary">Personalized</strong>
+          </div>
+        </header>
+
+        <section class="section-panel page-card">
+          <div class="form-grid">
+            <label>
+              Difficulty
+              <select id="difficultyInput">
+                <option value="beginner">Beginner</option>
+                <option value="intermediate" selected>Intermediate</option>
+                <option value="advanced">Advanced</option>
+              </select>
+            </label>
+            <label>
+              Study Pace
+              <select id="paceInput">
+                <option value="quick">Quick review</option>
+                <option value="steady" selected>Steady learning</option>
+                <option value="deep">Deep dive</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="section-heading spaced-heading">
+            <h2>Preferred Study Methods</h2>
+            <span>Select as many as you want</span>
+          </div>
+          <div class="choice-grid">
+            <label><input type="checkbox" class="methodInput" value="summary" checked> Teach me with a simple explanation</label>
+            <label><input type="checkbox" class="methodInput" value="flashcards" checked> Flashcards</label>
+            <label><input type="checkbox" class="methodInput" value="quiz" checked> Practice quiz</label>
+            <label><input type="checkbox" class="methodInput" value="discussion" checked> Discussion-style studying</label>
+            <label><input type="checkbox" class="methodInput" value="video" checked> Video-style lesson outline</label>
+            <label><input type="checkbox" class="methodInput" value="textbook" checked> Textbook-style reading guide</label>
+            <label><input type="checkbox" class="methodInput" value="powerpoint" checked> PowerPoint slide outline</label>
+            <label><input type="checkbox" class="methodInput" value="practice" checked> Practice problems</label>
+            <label><input type="checkbox" class="methodInput" value="plan" checked> Study plan</label>
+          </div>
+
+          <div class="button-row">
+            <button class="ghost-button page-next" data-page="topicPage" type="button">Back</button>
+            <button class="primary-button page-next" data-page="learnPage" type="button">Generate Study Guide</button>
+          </div>
+        </section>
+      </section>
+
+      <section class="page-section" id="learnPage">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Step 4</p>
+            <h1>Your Study Guide</h1>
+            <p class="intro" id="personalizedIntro"></p>
+          </div>
+          <div class="status-card">
+            <span>Estimated read</span>
+            <strong id="readTime">1 min</strong>
+          </div>
+        </header>
 
         <section class="results-grid" id="resultsGrid">
           <article class="result-card wide" data-method="summary">
             <div class="section-heading">
-              <h2>Teach Me The Topic</h2>
-              <span>Simple explanation</span>
+              <h2>Simple Explanation</h2>
+              <span>Start here</span>
             </div>
             <p id="summaryOutput"></p>
           </article>
 
-          <article class="result-card" data-method="examples">
+          <article class="result-card" data-method="discussion">
             <div class="section-heading">
-              <h2>Ways To Learn It</h2>
-              <span>Choose a path</span>
+              <h2>Discussion Prompts</h2>
+              <span>Talk it out</span>
             </div>
-            <div class="stack" id="methodsOutput"></div>
+            <div class="stack" id="discussionOutput"></div>
           </article>
 
-          <article class="result-card" data-method="summary">
+          <article class="result-card" data-method="video">
+            <div class="section-heading">
+              <h2>Video Lesson Outline</h2>
+              <span>Watch-style</span>
+            </div>
+            <ol class="path-list" id="videoOutput"></ol>
+          </article>
+
+          <article class="result-card" data-method="textbook">
+            <div class="section-heading">
+              <h2>Textbook Reading Guide</h2>
+              <span>Read-style</span>
+            </div>
+            <ol class="path-list" id="textbookOutput"></ol>
+          </article>
+
+          <article class="result-card" data-method="powerpoint">
+            <div class="section-heading">
+              <h2>PowerPoint Outline</h2>
+              <span>Slides</span>
+            </div>
+            <ol class="path-list" id="powerpointOutput"></ol>
+          </article>
+
+          <article class="result-card">
             <div class="section-heading">
               <h2>Key Terms</h2>
               <span>Hover</span>
@@ -206,6 +237,11 @@
             <ol class="path-list" id="planOutput"></ol>
           </article>
         </section>
+
+        <div class="button-row bottom-row">
+          <button class="ghost-button page-next" data-page="stylePage" type="button">Back</button>
+          <button class="primary-button page-next" data-page="topicPage" type="button">Study Another Topic</button>
+        </div>
       </section>
     </main>
 

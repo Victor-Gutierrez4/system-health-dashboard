@@ -3,10 +3,14 @@ import assert from "node:assert/strict";
 
 import {
   buildSummary,
+  createDiscussionPrompts,
   createFlashcards,
   createLearningMethods,
+  createPowerPointOutline,
   createPracticeProblems,
   createQuiz,
+  createTextbookGuide,
+  createVideoOutline,
   estimateReadTime,
   extractKeywords,
   formatQuestion,
@@ -66,6 +70,10 @@ test("generates a complete study kit", () => {
   assert.ok(kit.quiz.length > 0);
   assert.ok(kit.methods.length > 0);
   assert.ok(kit.practice.length > 0);
+  assert.ok(kit.discussion.length > 0);
+  assert.ok(kit.videoOutline.length > 0);
+  assert.ok(kit.textbookGuide.length > 0);
+  assert.ok(kit.powerpointOutline.length > 0);
   assert.ok(kit.plan.some((step) => step.includes("Networking")));
 });
 
@@ -82,4 +90,11 @@ test("creates practice problems from a learner concern", () => {
   assert.ok(practice.length > 0);
   assert.ok(practice[0].prompt.includes("remembering vocabulary"));
   assert.ok(practice[0].hint.includes("Start by defining"));
+});
+
+test("creates multiple learning resource formats", () => {
+  assert.ok(createDiscussionPrompts("History", notes, "dates").some((item) => item.detail.includes("dates")));
+  assert.ok(createVideoOutline("Algebra").some((item) => item.includes("Opening hook")));
+  assert.ok(createTextbookGuide("Biology", notes).some((item) => item.includes("Before reading")));
+  assert.ok(createPowerPointOutline("Networking", notes).some((item) => item.includes("Slide 1")));
 });
