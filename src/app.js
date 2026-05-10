@@ -168,13 +168,4 @@ document.getElementById("refreshButton").addEventListener("click", async () => {
   renderDashboard(sampleScans[scanIndex]);
 });
 
-document.querySelectorAll(".info-toggle").forEach((button) => {
-  button.addEventListener("click", (event) => {
-    event.stopPropagation();
-    const card = document.getElementById(button.dataset.target);
-    const isOpen = card.classList.toggle("info-open");
-    button.textContent = isOpen ? "Hide info" : "More info";
-  });
-});
-
 renderDashboard(sampleScans[scanIndex]);

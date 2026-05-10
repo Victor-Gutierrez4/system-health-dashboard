@@ -156,14 +156,15 @@ p {
 .metric-card {
   position: relative;
   padding: 18px;
-  transition: transform 160ms ease, box-shadow 160ms ease;
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
 }
 
 .metric-card:hover,
 .metric-card:focus {
-  transform: translateY(-3px);
+  transform: translateY(-4px) scale(1.025);
   outline: none;
   box-shadow: 0 22px 50px rgba(22, 32, 47, 0.16);
+  border-color: #b8c7dd;
 }
 
 .metric-label {
@@ -183,27 +184,12 @@ p {
   font-weight: 700;
 }
 
-.info-toggle {
-  display: inline-flex;
-  margin-top: 12px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 8px 10px;
-  color: var(--blue);
-  background: #f8fbff;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.info-toggle:hover {
-  border-color: var(--blue);
-}
-
 .metric-popover {
-  position: static;
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  top: calc(100% - 6px);
   z-index: 5;
-  width: 100%;
-  margin-top: 12px;
   padding: 12px;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -212,13 +198,16 @@ p {
   box-shadow: var(--shadow);
   font-size: 0.86rem;
   line-height: 1.45;
-  display: none;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity 160ms ease, transform 160ms ease;
 }
 
 .metric-card:hover .metric-popover,
-.metric-card:focus .metric-popover,
-.metric-card.info-open .metric-popover {
-  display: block;
+.metric-card:focus .metric-popover {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .metric-card.ok {
